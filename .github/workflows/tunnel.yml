@@ -80,10 +80,7 @@ jobs:
             fi
             CANDIDATES=$(grep -Eo 'https?://[[:alnum:].-]+\.lclt\.ir' localet.log | sort -u || true)
             for candidate in $CANDIDATES; do
-              # tunnel.lclt.ir is the relay server, not proof of a public app URL.
-              case "$candidate" in
-                http://tunnel.lclt.ir|https://tunnel.lclt.ir) continue ;;
-              esac
+              # A hostname is accepted only if it serves this app's health endpoint.
               if curl --fail --silent --show-error --connect-timeout 4 --max-time 8 \
                    "$candidate/api/health" -o /tmp/picohub-public-health.json 2>/dev/null &&
                  python -c 'import json,sys; d=json.load(sys.stdin); sys.exit(0 if d.get("ok") is True and d.get("database_configured") is True else 1)' \
