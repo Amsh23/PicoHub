@@ -5,8 +5,10 @@
 ## Live service / سرویس آنلاین
 
 **Live URL:** [https://packaging-shall-authorized-track.trycloudflare.com](https://packaging-shall-authorized-track.trycloudflare.com)
+**Cloudflare fallback:** [https://packaging-shall-authorized-track.trycloudflare.com](https://packaging-shall-authorized-track.trycloudflare.com)
+**Localet URL:** _Not reachable from this GitHub-hosted runner yet; it will only be linked after Localet passes the public health check._
 
-**Tunnel:** Cloudflare Quick Tunnel (fallback)
+**Tunnel:** Cloudflare Quick Tunnel (fallback; latest public health check passed)
 
 ## Features / امکانات
 
