@@ -171,7 +171,7 @@ jobs:
                     URL="$candidate"
                     TUNNEL_PID="$LOCAL_PID"
                     TUNNEL_MODE="Localet ($transport)"
-                    break 2
+                    break 3
                   fi
                 done
                 sleep 2
