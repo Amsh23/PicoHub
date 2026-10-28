@@ -60,6 +60,42 @@ jobs:
           curl -fL --retry 3 --connect-timeout 10 --max-time 90 "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64" -o cloudflared
           chmod +x cloudflared
           ./cloudflared --version
+      - name: Diagnose Localet relay connectivity from GitHub Actions
+        shell: bash
+        run: |
+          if [ ! -x ./localet ]; then
+            echo "LOCALET_BINARY_READY=0" >> "$GITHUB_ENV"
+            echo "Localet binary unavailable; the Cloudflare fallback will be used."
+            exit 0
+          fi
+          echo "---- Localet CLI help (bounded to 5 seconds) ----"
+          timeout 5s ./localet client --help > localet-help.log 2>&1 || true
+          cat localet-help.log || true
+          echo "---- DNS/TCP reachability for tunnel.lclt.ir ----"
+          python - <<'PY'
+          import os, socket, time
+          host = "tunnel.lclt.ir"
+          reachable = False
+          try:
+              addresses = sorted({x[4][0] for x in socket.getaddrinfo(host, None, type=socket.SOCK_STREAM)})
+              print(f"DNS {host}: {', '.join(addresses)}")
+          except Exception as exc:
+              addresses = []
+              print(f"DNS lookup failed: {type(exc).__name__}: {exc}")
+          for address in addresses:
+              for port in (443, 4443):
+                  start = time.monotonic()
+                  try:
+                      with socket.create_connection((address, port), timeout=5):
+                          print(f"TCP {address}:{port}: reachable in {time.monotonic()-start:.2f}s")
+                          reachable = True
+                  except Exception as exc:
+                      print(f"TCP {address}:{port}: {type(exc).__name__}: {exc}")
+          with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as env:
+              env.write(f"LOCALET_NETWORK_REACHABLE={'1' if reachable else '0'}\\n")
+          if not reachable:
+              print("::warning::GitHub-hosted runner cannot reach tunnel.lclt.ir on TCP 443 or 4443; Localet will be skipped and Cloudflare will keep PicoHub reachable.")
+          PY
       - name: Start PicoHub
         shell: bash
         run: |
@@ -84,11 +120,10 @@ jobs:
           URL=""
           TUNNEL_PID=""
           TUNNEL_MODE=""
-          if [ "$LOCALET_BINARY_READY" = "1" ] && [ -n "$LOCALET_TOKEN" ]; then
+          if [ "${LOCALET_BINARY_READY:-0}" = "1" ] && [ -n "$LOCALET_TOKEN" ] && [ "${LOCALET_NETWORK_REACHABLE:-0}" = "1" ]; then
             LOCAL_ARGS=(client --server tunnel.lclt.ir --token "$LOCALET_TOKEN" --port 8080)
-            LOCAL_HELP=""
+            LOCAL_HELP=$(cat localet-help.log 2>/dev/null || true)
             if [ -n "$LOCALET_SUBDOMAIN" ]; then
-              LOCAL_HELP=$(timeout 5s ./localet client --help 2>&1 || true)
               SUBDOMAIN_VALUE="$LOCALET_SUBDOMAIN"
               SUBDOMAIN_VALUE="${SUBDOMAIN_VALUE#https://}"
               SUBDOMAIN_VALUE="${SUBDOMAIN_VALUE#http://}"
@@ -138,6 +173,12 @@ jobs:
               kill "$LOCAL_PID" 2>/dev/null || true
               sleep 1
               echo "Localet did not provide a publicly healthy URL. Switching to Cloudflare fallback."
+            fi
+          else
+            if [ "${LOCALET_BINARY_READY:-0}" != "1" ] || [ -z "$LOCALET_TOKEN" ]; then
+              echo "Localet binary/token is missing; switching to Cloudflare fallback."
+            elif [ "${LOCALET_NETWORK_REACHABLE:-0}" != "1" ]; then
+              echo "Localet relay is not reachable from this GitHub-hosted runner on TCP 443/4443; switching to Cloudflare fallback."
             fi
           fi
 
