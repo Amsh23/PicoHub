@@ -4,7 +4,7 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** _The workflow updates this line automatically after an external health check passes._
+**Live URL:** [https://edinburgh-professor-everything-gore.trycloudflare.com](https://edinburgh-professor-everything-gore.trycloudflare.com)
 
 **Tunnel:** _Localet first; verified Cloudflare Quick Tunnel fallback if Localet cannot connect from GitHub Actions._
 
