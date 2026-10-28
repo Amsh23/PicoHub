@@ -85,3 +85,40 @@ jobs:
               raise SystemExit("Frontend sorting is not connected to the API")
           print("Category aliases, taxonomy, language persistence, and sorting checks passed.")
           PY
+
+      - name: Validate tunnel workflow shell syntax
+        run: |
+          python - <<'PY'
+          import re
+          import subprocess
+          from pathlib import Path
+
+          lines = Path(".github/workflows/tunnel.yml").read_text(encoding="utf-8").splitlines()
+          scripts = []
+          i = 0
+          while i < len(lines):
+              match = re.match(r"^( *)run:\s*\|\s*$", lines[i])
+              if not match:
+                  i += 1
+                  continue
+              run_indent = len(match.group(1))
+              i += 1
+              body = []
+              while i < len(lines):
+                  line = lines[i]
+                  indent = len(line) - len(line.lstrip(" "))
+                  if line.strip() and indent <= run_indent:
+                      break
+                  body.append(line[run_indent + 2:] if line.strip() else "")
+                  i += 1
+              scripts.append("\n".join(body))
+          if not scripts:
+              raise SystemExit("No multiline run scripts found in tunnel workflow")
+          for number, script in enumerate(scripts, 1):
+              path = Path(f"/tmp/picohub-tunnel-{number}.sh")
+              path.write_text(script + "\n", encoding="utf-8")
+              result = subprocess.run(["bash", "-n", str(path)], capture_output=True, text=True)
+              if result.returncode:
+                  raise SystemExit(f"Tunnel workflow shell syntax failed in block {number}:\n{result.stderr}")
+          print(f"Validated shell syntax for {len(scripts)} tunnel workflow script blocks.")
+          PY
