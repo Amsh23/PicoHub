@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://greg-shake-football-consultation.trycloudflare.com](https://greg-shake-football-consultation.trycloudflare.com)
-**Cloudflare fallback:** [https://greg-shake-football-consultation.trycloudflare.com](https://greg-shake-football-consultation.trycloudflare.com)
+**Live URL:** [https://act-federation-federal-favors.trycloudflare.com](https://act-federation-federal-favors.trycloudflare.com)
+**Cloudflare fallback:** [https://act-federation-federal-favors.trycloudflare.com](https://act-federation-federal-favors.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
