@@ -53,6 +53,7 @@ jobs:
         run: |
           nohup uvicorn app:app --host 0.0.0.0 --port 8080 > app.log 2>&1 &
           APP_PID=$!
+          echo "PICOHUB_APP_PID=$APP_PID" >> "$GITHUB_ENV"
           for i in $(seq 1 30); do
             if curl --fail --silent --max-time 3 http://127.0.0.1:8080/api/health \
                  -o /tmp/picohub-local-health.json 2>/dev/null &&
@@ -153,7 +154,7 @@ jobs:
               cat cloudflared.log
               exit 1
             fi
-            if ! kill -0 "$APP_PID" 2>/dev/null; then
+            if ! kill -0 "$PICOHUB_APP_PID" 2>/dev/null; then
               echo "PicoHub app process stopped."
               cat app.log
               exit 1
