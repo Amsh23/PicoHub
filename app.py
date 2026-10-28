@@ -22,6 +22,34 @@ SECRET_KEY_NAMES = (
     r"private[_-]?key|refresh[_-]?token|bearer"
 )
 
+CATEGORY_ALIASES = {
+    "channels": ("messaging", "telegram", "discord", "whatsapp", "تلگرام و پیام‌رسان‌ها", "پیام‌رسان‌ها"),
+    "providers": ("provider", "providers", "model", "models", "llm", "مدل‌ها و Providerها", "مدل‌ها و فراهم‌کننده‌ها"),
+    "tools": ("tool", "mcp", "tools & mcp", "ابزارها", "ابزارها و اتصال‌ها", "ابزارها و اتصال ها"),
+    "automation": ("scheduling", "scheduler", "automation & scheduling", "اتوماسیون و زمان‌بندی", "اتوماسیون و زمانبندی"),
+    "workflows": ("workflow", "recipe", "recipes", "workflows", "جریان‌های کاری", "گردش‌کارها"),
+    "skills": ("skill", "prompt", "prompts", "مهارت‌ها", "پرامپت‌ها"),
+    "memory": ("knowledge", "rag", "حافظه و دانش", "حافظه"),
+    "voice": ("audio", "speech", "realtime", "صدا و گفتار", "صوت و گفتار"),
+    "android": ("termux", "mobile", "اندروید و Termux", "اندروید و ترموکس"),
+    "integrations": ("api", "apis", "integration", "connections", "connectors", "سرویس‌ها و اتصال‌ها", "اتصال‌ها و APIها"),
+    "security": ("privacy", "secrets", "امنیت و حریم خصوصی", "امنیت"),
+    "templates": ("starter", "starter template", "starter templates", "قالب‌های شروع", "قالب شروع"),
+    "productivity": ("agent", "agents", "productivity & agents", "بهره‌وری و دستیارها", "دستیارها و بهره‌وری"),
+    "other": ("misc", "miscellaneous", "سایر موارد"),
+}
+CATEGORY_LOOKUP = {
+    alias.strip().casefold(): canonical
+    for canonical, aliases in CATEGORY_ALIASES.items()
+    for alias in (canonical, *aliases)
+}
+
+
+def canonical_category(value: str) -> str:
+    key = re.sub(r"\\s+", " ", str(value or "").strip()).casefold()
+    return CATEGORY_LOOKUP.get(key, "other")
+
+
 
 def db():
     if not TURSO_DATABASE_URL or not TURSO_AUTH_TOKEN:
@@ -165,7 +193,7 @@ async def submit_config(
             (
                 config_id,
                 title.strip()[:180],
-                category.strip()[:100],
+                canonical_category(category),
                 description.strip()[:1500],
                 json.dumps([x.strip() for x in tags.split(",") if x.strip()][:30], ensure_ascii=False),
                 clean,
@@ -203,7 +231,10 @@ async def list_configs(
     offset: int = Query(0, ge=0),
     q: str = Query("", max_length=200),
     category: str = Query("", max_length=100),
+    sort: str = Query("newest", max_length=20),
 ):
+    if sort not in {"newest", "oldest", "title"}:
+        raise HTTPException(400, "Unsupported sort order.")
     terms = ["status='published'"]
     params: list[object] = []
     if q.strip():
@@ -211,16 +242,24 @@ async def list_configs(
         pattern = f"%{q.strip()}%"
         params.extend([pattern, pattern, pattern, pattern])
     if category.strip():
-        terms.append("category = ?")
-        params.append(category.strip()[:100])
+        normalized = canonical_category(category)
+        aliases = [alias.casefold() for alias in (normalized, *CATEGORY_ALIASES[normalized])]
+        placeholders = ",".join("?" for _ in aliases)
+        terms.append(f"(lower(category) IN ({placeholders}))")
+        params.extend(aliases)
 
     where = " AND ".join(terms)
+    order_by = {
+        "newest": "created_at DESC",
+        "oldest": "created_at ASC",
+        "title": "title COLLATE NOCASE ASC",
+    }[sort]
     client = db()
     try:
         cursor = client.execute(
             f"""SELECT id,title,category,description,tags,content_sha256,created_at,status,file_name,mime_type
                 FROM configs WHERE {where}
-                ORDER BY created_at DESC LIMIT ? OFFSET ?""",
+                ORDER BY {order_by} LIMIT ? OFFSET ?""",
             tuple(params + [limit + 1, offset]),
         )
         items = rows_as_dicts(cursor)
@@ -231,7 +270,8 @@ async def list_configs(
                 item["tags"] = json.loads(item.get("tags") or "[]")
             except (TypeError, json.JSONDecodeError):
                 item["tags"] = []
-        return {"items": items, "limit": limit, "offset": offset, "has_more": has_more}
+            item["category"] = canonical_category(item.get("category"))
+        return {"items": items, "limit": limit, "offset": offset, "has_more": has_more, "sort": sort}
     finally:
         client.close()
 
@@ -274,6 +314,7 @@ async def get_config(config_id: str):
             rows[0]["tags"] = json.loads(rows[0].get("tags") or "[]")
         except (TypeError, json.JSONDecodeError):
             rows[0]["tags"] = []
+        rows[0]["category"] = canonical_category(rows[0].get("category"))
         return rows[0]
     finally:
         client.close()
