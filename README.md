@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://act-federation-federal-favors.trycloudflare.com](https://act-federation-federal-favors.trycloudflare.com)
-**Cloudflare fallback:** [https://act-federation-federal-favors.trycloudflare.com](https://act-federation-federal-favors.trycloudflare.com)
+**Live URL:** [https://electricity-label-pride-tagged.trycloudflare.com](https://electricity-label-pride-tagged.trycloudflare.com)
+**Cloudflare fallback:** [https://electricity-label-pride-tagged.trycloudflare.com](https://electricity-label-pride-tagged.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
