@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://favourites-soviet-binary-tissue.trycloudflare.com](https://favourites-soviet-binary-tissue.trycloudflare.com)
-**Cloudflare fallback:** [https://favourites-soviet-binary-tissue.trycloudflare.com](https://favourites-soviet-binary-tissue.trycloudflare.com)
+**Live URL:** [https://divine-inserted-meyer-hunter.trycloudflare.com](https://divine-inserted-meyer-hunter.trycloudflare.com)
+**Cloudflare fallback:** [https://divine-inserted-meyer-hunter.trycloudflare.com](https://divine-inserted-meyer-hunter.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
