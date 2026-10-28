@@ -15,9 +15,14 @@
 - **فارسی و انگلیسی** — switch languages from the header; the layout changes between RTL and LTR.
 - **Instant public publishing** — submissions become visible in the library immediately, without a moderation queue.
 - **No fixed app-level upload-size cap** — text configs of different sizes can be submitted. The database, HTTP request, runner memory and network may still impose practical limits; this is not mathematically unlimited storage.
-- **Search, categories, tags, paging, file download and copy**.
+- **Advanced taxonomy and discovery** — 14 shared categories, searchable metadata/content, tag chips, paging, file download/copy, and sorting by newest, oldest, or title.
+- **Consistent bilingual UX** — the language switch translates controls, status messages, category filters, sort options, and accessibility labels; it remembers the selected language and resets pagination without duplicating cards.
 - **Best-effort secret masking** for common token/key patterns before publishing. This is not a guarantee; never submit real credentials.
 - SQLite/libSQL/Turso-backed persistent metadata and config content.
+
+## Category taxonomy / دسته‌بندی‌ها
+
+The same canonical category keys are used in the submission form, library filters, API, and cards: **Channels & messaging, Models & providers, Tools & MCP, Automation & scheduling, Workflows & recipes, Skills & prompts, Memory & knowledge, Voice & speech, APIs & integrations, Android & Termux, Security & privacy, Starter templates, Agents & productivity, Other**. Legacy Persian category labels already in Turso are normalized to these keys, so older submissions remain discoverable.
 
 ## Tunnel setup / راه‌اندازی تونل
 
