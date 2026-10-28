@@ -1,15 +1,26 @@
-import os, json, re, secrets, hashlib
+import hashlib
+import json
+import os
+import re
+import secrets
 from datetime import datetime, timezone
 from pathlib import Path
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException
-from fastapi.responses import HTMLResponse
-import libsql
+from urllib.parse import quote
 
-app = FastAPI(title="PicoHub")
+import libsql
+from fastapi import FastAPI, File, Form, HTTPException, Query, Request, UploadFile
+from fastapi.responses import HTMLResponse, Response
+
+app = FastAPI(title="PicoHub", version="2.0.0")
 BASE = Path(__file__).parent
-MAX_METADATA_BYTES = 2 * 1024 * 1024
 TURSO_DATABASE_URL = os.getenv("TURSO_DATABASE_URL", "").strip()
 TURSO_AUTH_TOKEN = os.getenv("TURSO_AUTH_TOKEN", "").strip()
+
+SECRET_KEY_NAMES = (
+    r"api[_-]?key|access[_-]?token|auth[_-]?token|bot[_-]?token|"
+    r"client[_-]?secret|password|passwd|secret|authorization|"
+    r"private[_-]?key|refresh[_-]?token|bearer"
+)
 
 
 def db():
@@ -18,7 +29,7 @@ def db():
     try:
         return libsql.connect(database=TURSO_DATABASE_URL, auth_token=TURSO_AUTH_TOKEN)
     except Exception as exc:
-        raise HTTPException(503, f"Could not connect to the database: {type(exc).__name__}") from exc
+        raise HTTPException(503, f"Database connection failed: {type(exc).__name__}") from exc
 
 
 def rows_as_dicts(cursor):
@@ -28,18 +39,34 @@ def rows_as_dicts(cursor):
 
 @app.on_event("startup")
 async def startup():
-    if TURSO_DATABASE_URL and TURSO_AUTH_TOKEN:
-        client = db()
-        try:
-            client.execute("""CREATE TABLE IF NOT EXISTS configs (
-                id TEXT PRIMARY KEY, title TEXT NOT NULL, category TEXT NOT NULL,
-                description TEXT NOT NULL DEFAULT '', tags TEXT NOT NULL DEFAULT '[]',
-                content TEXT NOT NULL, content_sha256 TEXT NOT NULL,
-                created_at TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'pending_review'
-            )""")
-            client.commit()
-        finally:
-            client.close()
+    if not TURSO_DATABASE_URL or not TURSO_AUTH_TOKEN:
+        return
+    client = db()
+    try:
+        client.execute("""CREATE TABLE IF NOT EXISTS configs (
+            id TEXT PRIMARY KEY,
+            title TEXT NOT NULL,
+            category TEXT NOT NULL,
+            description TEXT NOT NULL DEFAULT '',
+            tags TEXT NOT NULL DEFAULT '[]',
+            content TEXT NOT NULL,
+            content_sha256 TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            status TEXT NOT NULL DEFAULT 'published',
+            file_name TEXT NOT NULL DEFAULT '',
+            mime_type TEXT NOT NULL DEFAULT 'text/plain'
+        )""")
+        columns = {
+            row[1] for row in client.execute("PRAGMA table_info(configs)").fetchall()
+        }
+        # Safe migrations for databases created by an earlier PicoHub version.
+        if "file_name" not in columns:
+            client.execute("ALTER TABLE configs ADD COLUMN file_name TEXT NOT NULL DEFAULT ''")
+        if "mime_type" not in columns:
+            client.execute("ALTER TABLE configs ADD COLUMN mime_type TEXT NOT NULL DEFAULT 'text/plain'")
+        client.commit()
+    finally:
+        client.close()
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -49,58 +76,184 @@ async def home():
 
 @app.get("/api/health")
 async def health():
-    return {"ok": True, "database_configured": bool(TURSO_DATABASE_URL and TURSO_AUTH_TOKEN)}
+    client = db()
+    try:
+        client.execute("SELECT 1").fetchone()
+        return {"ok": True, "database_configured": True, "database_reachable": True}
+    except Exception as exc:
+        raise HTTPException(503, f"Database health check failed: {type(exc).__name__}") from exc
+    finally:
+        client.close()
 
 
-def redact_secrets(s: str) -> str:
-    s = re.sub(r'(?i)("(?:api[_-]?key|token|bot_token|password|secret|authorization)"\s*:\s*")[^"]*(")', r'\1[REDACTED]\2', s)
-    s = re.sub(r'\b(sk-[A-Za-z0-9_-]{12,}|gh[pousr]_[A-Za-z0-9_]{20,}|[0-9]{7,12}:[A-Za-z0-9_-]{25,})\b', '[REDACTED_SECRET]', s)
-    return s
+def redact_secrets(text: str) -> str:
+    """Best-effort masking for common config secret fields before instant publishing."""
+    quoted_value = re.compile(
+        rf'(?i)(["\']?(?:{SECRET_KEY_NAMES})["\']?\s*[:=]\s*)(["\'])(.*?)(\2)'
+    )
+    text = quoted_value.sub(lambda m: m.group(1) + m.group(2) + "[REDACTED]" + m.group(4), text)
+
+    # YAML / .env / INI-style unquoted assignments.
+    unquoted_value = re.compile(
+        rf'(?im)^(\s*(?:{SECRET_KEY_NAMES})\s*[:=]\s*)(?!["\']?\[REDACTED)([^\s"\'#;,}}\]]+)'
+    )
+    text = unquoted_value.sub(lambda m: m.group(1) + "[REDACTED]", text)
+
+    text = re.sub(
+        r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----[\s\S]*?-----END (?:RSA |EC |OPENSSH )?PRIVATE KEY-----",
+        "[REDACTED_PRIVATE_KEY]",
+        text,
+    )
+    text = re.sub(
+        r"\b(sk-[A-Za-z0-9_-]{12,}|gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,}|"
+        r"AKIA[A-Z0-9]{16}|AIza[0-9A-Za-z_-]{30,}|[0-9]{7,12}:[A-Za-z0-9_-]{25,})\b",
+        "[REDACTED_SECRET]",
+        text,
+    )
+    return text
+
+
+def safe_file_name(name: str) -> str:
+    name = (name or "config.txt").replace("\\", "/").split("/")[-1]
+    name = re.sub(r"[^A-Za-z0-9._() -]", "_", name).strip(" .")
+    return (name or "config.txt")[:180]
 
 
 @app.post("/api/configs")
-async def submit_config(title: str = Form(...), category: str = Form(...),
-                        description: str = Form(""), tags: str = Form(""),
-                        content: str = Form(""), file: UploadFile | None = File(None)):
-    if file:
+async def submit_config(
+    title: str = Form(...),
+    category: str = Form(...),
+    description: str = Form(""),
+    tags: str = Form(""),
+    content: str = Form(""),
+    file: UploadFile | None = File(None),
+):
+    file_name = ""
+    mime_type = "text/plain; charset=utf-8"
+
+    if file is not None and file.filename:
+        file_name = safe_file_name(file.filename)
+        mime_type = (file.content_type or "text/plain").split(";")[0][:120]
         raw = await file.read()
-        if len(raw) > MAX_METADATA_BYTES:
-            raise HTTPException(413, "Config text is too large. Use external object storage for large files.")
         try:
-            content = raw.decode("utf-8")
-        except UnicodeDecodeError:
-            raise HTTPException(415, "Only UTF-8 text configs are supported in this starter.")
+            content = raw.decode("utf-8-sig")
+        except UnicodeDecodeError as exc:
+            raise HTTPException(
+                415,
+                "This library stores text-based configs. Convert binary files to a text config or archive before uploading.",
+            ) from exc
+    else:
+        file_name = safe_file_name((title.strip() or "config") + ".txt")
+
     if not content.strip():
-        raise HTTPException(400, "Upload a config or paste its contents.")
+        raise HTTPException(400, "Choose a file or paste the configuration content.")
+    if not title.strip():
+        raise HTTPException(400, "A title is required.")
+    if not category.strip():
+        raise HTTPException(400, "A category is required.")
+
     clean = redact_secrets(content)
-    if len(clean.encode("utf-8")) > MAX_METADATA_BYTES:
-        raise HTTPException(413, "Config text is too large.")
     config_id = secrets.token_urlsafe(9)
     created = datetime.now(timezone.utc).isoformat()
-    digest = hashlib.sha256(clean.encode()).hexdigest()
+    digest = hashlib.sha256(clean.encode("utf-8")).hexdigest()
     client = db()
     try:
         client.execute(
-            "INSERT INTO configs (id,title,category,description,tags,content,content_sha256,created_at,status) VALUES (?,?,?,?,?,?,?,?,?)",
-            (config_id, title[:180], category[:100], description[:1500],
-             json.dumps([x.strip() for x in tags.split(",") if x.strip()][:30]),
-             clean, digest, created, "pending_review"))
+            """INSERT INTO configs
+               (id,title,category,description,tags,content,content_sha256,created_at,status,file_name,mime_type)
+               VALUES (?,?,?,?,?,?,?,?,?,?,?)""",
+            (
+                config_id,
+                title.strip()[:180],
+                category.strip()[:100],
+                description.strip()[:1500],
+                json.dumps([x.strip() for x in tags.split(",") if x.strip()][:30], ensure_ascii=False),
+                clean,
+                digest,
+                created,
+                "published",
+                file_name,
+                mime_type,
+            ),
+        )
         client.commit()
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise HTTPException(
+            503,
+            f"Could not save this config to the database: {type(exc).__name__}. The storage provider may impose a request or row-size limit.",
+        ) from exc
     finally:
         client.close()
-    return {"ok": True, "id": config_id, "status": "pending_review",
-            "note": "Secret masking is best-effort. Review before publishing."}
+
+    return {
+        "ok": True,
+        "id": config_id,
+        "status": "published",
+        "file_name": file_name,
+        "content_sha256": digest,
+        "note": "Published immediately. Common secret patterns were masked automatically, but secret detection is not guaranteed.",
+    }
 
 
 @app.get("/api/configs")
-async def list_configs(limit: int = 30):
-    limit = max(1, min(limit, 100))
+async def list_configs(
+    limit: int = Query(30, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+    q: str = Query("", max_length=200),
+    category: str = Query("", max_length=100),
+):
+    terms = ["status='published'"]
+    params: list[object] = []
+    if q.strip():
+        terms.append("(title LIKE ? OR description LIKE ? OR tags LIKE ? OR content LIKE ?)")
+        pattern = f"%{q.strip()}%"
+        params.extend([pattern, pattern, pattern, pattern])
+    if category.strip():
+        terms.append("category = ?")
+        params.append(category.strip()[:100])
+
+    where = " AND ".join(terms)
     client = db()
     try:
         cursor = client.execute(
-            "SELECT id,title,category,description,tags,content_sha256,created_at,status FROM configs WHERE status='published' ORDER BY created_at DESC LIMIT ?",
-            (limit,))
-        return {"items": rows_as_dicts(cursor)}
+            f"""SELECT id,title,category,description,tags,content_sha256,created_at,status,file_name,mime_type
+                FROM configs WHERE {where}
+                ORDER BY created_at DESC LIMIT ? OFFSET ?""",
+            tuple(params + [limit + 1, offset]),
+        )
+        items = rows_as_dicts(cursor)
+        has_more = len(items) > limit
+        items = items[:limit]
+        for item in items:
+            try:
+                item["tags"] = json.loads(item.get("tags") or "[]")
+            except (TypeError, json.JSONDecodeError):
+                item["tags"] = []
+        return {"items": items, "limit": limit, "offset": offset, "has_more": has_more}
+    finally:
+        client.close()
+
+
+@app.get("/api/configs/{config_id}/download")
+async def download_config(config_id: str):
+    client = db()
+    try:
+        cursor = client.execute(
+            "SELECT content,file_name,mime_type FROM configs WHERE id=? AND status='published'",
+            (config_id,),
+        )
+        rows = rows_as_dicts(cursor)
+        if not rows:
+            raise HTTPException(404, "Config not found")
+        item = rows[0]
+        filename = safe_file_name(item.get("file_name") or "config.txt")
+        return Response(
+            content=item["content"],
+            media_type="text/plain; charset=utf-8",
+            headers={"Content-Disposition": f"attachment; filename*=UTF-8''{quote(filename)}"},
+        )
     finally:
         client.close()
 
@@ -110,11 +263,17 @@ async def get_config(config_id: str):
     client = db()
     try:
         cursor = client.execute(
-            "SELECT id,title,category,description,tags,content,content_sha256,created_at,status FROM configs WHERE id=? AND status='published'",
-            (config_id,))
+            """SELECT id,title,category,description,tags,content,content_sha256,created_at,status,file_name,mime_type
+               FROM configs WHERE id=? AND status='published'""",
+            (config_id,),
+        )
         rows = rows_as_dicts(cursor)
         if not rows:
             raise HTTPException(404, "Config not found")
+        try:
+            rows[0]["tags"] = json.loads(rows[0].get("tags") or "[]")
+        except (TypeError, json.JSONDecodeError):
+            rows[0]["tags"] = []
         return rows[0]
     finally:
         client.close()
