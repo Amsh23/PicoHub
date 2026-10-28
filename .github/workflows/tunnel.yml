@@ -86,8 +86,9 @@ jobs:
           TUNNEL_MODE=""
           if [ "$LOCALET_BINARY_READY" = "1" ] && [ -n "$LOCALET_TOKEN" ]; then
             LOCAL_ARGS=(client --server tunnel.lclt.ir --token "$LOCALET_TOKEN" --port 8080)
-            LOCAL_HELP=$(./localet client --help 2>&1 || true)
+            LOCAL_HELP=""
             if [ -n "$LOCALET_SUBDOMAIN" ]; then
+              LOCAL_HELP=$(timeout 5s ./localet client --help 2>&1 || true)
               SUBDOMAIN_VALUE="$LOCALET_SUBDOMAIN"
               SUBDOMAIN_VALUE="${SUBDOMAIN_VALUE#https://}"
               SUBDOMAIN_VALUE="${SUBDOMAIN_VALUE#http://}"
