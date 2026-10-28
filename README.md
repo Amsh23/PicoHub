@@ -4,11 +4,11 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://packaging-shall-authorized-track.trycloudflare.com](https://packaging-shall-authorized-track.trycloudflare.com)
-**Cloudflare fallback:** [https://packaging-shall-authorized-track.trycloudflare.com](https://packaging-shall-authorized-track.trycloudflare.com)
-**Localet URL:** _Not reachable from this GitHub-hosted runner yet; it will only be linked after Localet passes the public health check._
+**Live URL:** [https://singh-barrier-grace-spotlight.trycloudflare.com](https://singh-barrier-grace-spotlight.trycloudflare.com)
+**Cloudflare fallback:** [https://singh-barrier-grace-spotlight.trycloudflare.com](https://singh-barrier-grace-spotlight.trycloudflare.com)
+**Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
-**Tunnel:** Cloudflare Quick Tunnel (fallback; latest public health check passed)
+**Tunnel:** Cloudflare Quick Tunnel (fallback)
 
 ## Features / امکانات
 
