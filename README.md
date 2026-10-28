@@ -4,9 +4,9 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** _Waiting for the next externally verified tunnel URL._
+**Live URL:** [https://appliances-cartridge-private-bedding.trycloudflare.com](https://appliances-cartridge-private-bedding.trycloudflare.com)
 
-**Tunnel:** _Localet primary; Cloudflare fallback only when needed._
+**Tunnel:** Cloudflare Quick Tunnel (fallback)
 
 ## Features / امکانات
 
