@@ -13,7 +13,7 @@ Open http://127.0.0.1:8000
 
 ## GitHub Actions + Cloudflare Quick Tunnel
 
-**Live URL:** _در حال راه‌اندازی؛ لینک فقط بعد از تأیید پاسخ واقعی برنامه در این بخش ثبت می‌شود._
+**Live URL:** [https://spending-art-packaging-temporal.trycloudflare.com](https://spending-art-packaging-temporal.trycloudflare.com)
 
 In repository **Settings → Secrets and variables → Actions**, configure these repository secrets:
 - `TURSO_DATABASE_URL`: your Turso database URL (usually starts with `libsql://`)
