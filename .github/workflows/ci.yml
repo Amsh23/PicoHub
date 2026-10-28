@@ -15,3 +15,32 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install -r requirements.txt
       - run: python -m py_compile app.py
+
+      - name: Validate browser JavaScript
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          html = Path("static/index.html").read_text(encoding="utf-8")
+          scripts = re.findall(r"<script>(.*?)</script>", html, flags=re.S)
+          if not scripts:
+              raise SystemExit("No inline JavaScript block found")
+          Path("/tmp/picohub-inline.js").write_text("\\n".join(scripts), encoding="utf-8")
+          PY
+          node --check /tmp/picohub-inline.js
+      - name: Smoke-test secret masking
+        run: |
+          python - <<'PY'
+          from app import redact_secrets
+          samples = [
+              ('{"api_key":"do-not-publish-this-value"}', "do-not-publish-this-value"),
+              ("password: definitely-secret", "definitely-secret"),
+              ("OPENAI_KEY=sk-supersecretvalue12345", "sk-supersecretvalue12345"),
+              ("-----BEGIN PRIVATE KEY-----\\nprivate-material\\n-----END PRIVATE KEY-----", "private-material"),
+          ]
+          for source, secret in samples:
+              result = redact_secrets(source)
+              if secret in result:
+                  raise SystemExit("Secret masking smoke test failed")
+          print("Secret masking smoke tests passed.")
+          PY
