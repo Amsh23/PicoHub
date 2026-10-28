@@ -36,7 +36,7 @@ CATEGORY_ALIASES = {
     "security": ("privacy", "secrets", "امنیت و حریم خصوصی", "امنیت"),
     "templates": ("starter", "starter template", "starter templates", "قالب‌های شروع", "قالب شروع"),
     "productivity": ("agent", "agents", "productivity & agents", "بهره‌وری و دستیارها", "دستیارها و بهره‌وری"),
-    "other": ("misc", "miscellaneous", "سایر موارد"),
+    "other": ("misc", "miscellaneous", "سایر", "سایر موارد"),
 }
 CATEGORY_LOOKUP = {
     alias.strip().casefold(): canonical
