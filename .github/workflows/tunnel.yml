@@ -73,15 +73,25 @@ jobs:
           TUNNEL_PID=$!
           URL=""
           for i in $(seq 1 90); do
-            URL=$(grep -Eo 'https?://[[:alnum:].-]+\.lclt\.ir' localet.log | head -n 1 || true)
-            if [ -n "$URL" ]; then
-              echo "PicoHub public URL: $URL"
-              break
-            fi
             if ! kill -0 "$TUNNEL_PID" 2>/dev/null; then
+              echo "Localet client exited before publishing a usable URL."
               cat localet.log
               exit 1
             fi
+            CANDIDATES=$(grep -Eo 'https?://[[:alnum:].-]+\.lclt\.ir' localet.log | sort -u || true)
+            for candidate in $CANDIDATES; do
+              # tunnel.lclt.ir is the relay server, not proof of a public app URL.
+              case "$candidate" in
+                http://tunnel.lclt.ir|https://tunnel.lclt.ir) continue ;;
+              esac
+              if curl --fail --silent --show-error --connect-timeout 4 --max-time 8 \
+                   "$candidate/api/health" -o /tmp/picohub-public-health.json 2>/dev/null &&
+                 python -c 'import json,sys; d=json.load(sys.stdin); sys.exit(0 if d.get("ok") is True and d.get("database_configured") is True else 1)' \
+                   < /tmp/picohub-public-health.json; then
+                URL="$candidate"
+                break 2
+              fi
+            done
             sleep 2
           done
           if [ -z "$URL" ]; then
@@ -130,6 +140,7 @@ jobs:
           else:
               print("README already contains the current live URL.")
           PY
+          FAILURES=0
           END=$((SECONDS + 340*60))
           while [ "$SECONDS" -lt "$END" ]; do
             if ! kill -0 "$TUNNEL_PID" 2>/dev/null; then
@@ -141,6 +152,28 @@ jobs:
               echo "PicoHub app process stopped."
               cat app.log
               exit 1
+            fi
+            if ! curl --fail --silent --max-time 5 http://127.0.0.1:8080/api/health \
+                 -o /tmp/picohub-local-health.json 2>/dev/null ||
+               ! python -c 'import json,sys; d=json.load(sys.stdin); sys.exit(0 if d.get("ok") is True and d.get("database_configured") is True else 1)' \
+                 < /tmp/picohub-local-health.json; then
+              echo "PicoHub local health check failed."
+              cat app.log
+              exit 1
+            fi
+            if curl --fail --silent --max-time 8 "$URL/api/health" \
+                 -o /tmp/picohub-public-health.json 2>/dev/null &&
+               python -c 'import json,sys; d=json.load(sys.stdin); sys.exit(0 if d.get("ok") is True and d.get("database_configured") is True else 1)' \
+                 < /tmp/picohub-public-health.json; then
+              FAILURES=0
+            else
+              FAILURES=$((FAILURES + 1))
+              echo "Public health check failed ($FAILURES/5)."
+              if [ "$FAILURES" -ge 5 ]; then
+                echo "Public tunnel failed five consecutive health checks."
+                cat localet.log
+                exit 1
+              fi
             fi
             sleep 30
           done
