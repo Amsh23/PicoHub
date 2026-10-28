@@ -1,4 +1,4 @@
-name: PicoHub Localet tunnel
+name: PicoHub Cloudflare Quick Tunnel
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 permissions:
   contents: write
 
-# GitHub-hosted runners are temporary; this job is restarted periodically.
+# GitHub-hosted runners are temporary and the URL is ephemeral.
 concurrency:
   group: picohub-public-tunnel
   cancel-in-progress: true
@@ -23,7 +23,6 @@ jobs:
     env:
       TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
       TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
-      LOCALET_TOKEN: ${{ secrets.loacalet_token }}
       GH_TOKEN: ${{ github.token }}
       GITHUB_REPOSITORY: ${{ github.repository }}
     steps:
@@ -42,19 +41,24 @@ jobs:
         run: |
           test -n "$TURSO_DATABASE_URL" || { echo "Missing secret TURSO_DATABASE_URL"; exit 1; }
           test -n "$TURSO_AUTH_TOKEN" || { echo "Missing secret TURSO_AUTH_TOKEN"; exit 1; }
-          test -n "$LOCALET_TOKEN" || { echo "Missing secret loacalet_token"; exit 1; }
-      - name: Install Localet Linux client
+      - name: Install Cloudflare tunnel client
         run: |
-          curl -fL --retry 3 "https://localet.ir/download/f/localet-linux-amd64" -o localet
-          chmod +x localet
-          ./localet version
+          curl -fL --retry 3 --connect-timeout 10 \
+            "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64" \
+            -o cloudflared
+          chmod +x cloudflared
+          ./cloudflared --version
       - name: Start PicoHub
+        shell: bash
         run: |
           nohup uvicorn app:app --host 0.0.0.0 --port 8080 > app.log 2>&1 &
           APP_PID=$!
           for i in $(seq 1 30); do
-            if curl --fail --silent http://127.0.0.1:8080/api/health >/dev/null; then
-              echo "PicoHub server is responding on port 8080."
+            if curl --fail --silent --max-time 3 http://127.0.0.1:8080/api/health \
+                 -o /tmp/picohub-local-health.json 2>/dev/null &&
+               python -c 'import json,sys; d=json.load(sys.stdin); sys.exit(0 if d.get("ok") is True and d.get("database_configured") is True else 1)' \
+                 < /tmp/picohub-local-health.json; then
+              echo "PicoHub server and database are healthy on port 8080."
               exit 0
             fi
             if ! kill -0 "$APP_PID" 2>/dev/null; then
@@ -64,44 +68,41 @@ jobs:
             sleep 2
           done
           cat app.log
-          echo "PicoHub did not become ready."
+          echo "PicoHub did not become ready with a configured database."
           exit 1
-      - name: Start Localet tunnel, publish URL, and keep runner alive
+      - name: Start Cloudflare Quick Tunnel, publish verified URL, and keep runner alive
         shell: bash
         run: |
-          ./localet client --server tunnel.lclt.ir --token "$LOCALET_TOKEN" --port 8080 > localet.log 2>&1 &
+          ./cloudflared tunnel --no-autoupdate --url http://127.0.0.1:8080 --output json > cloudflared.log 2>&1 &
           TUNNEL_PID=$!
           URL=""
           for i in $(seq 1 90); do
             if ! kill -0 "$TUNNEL_PID" 2>/dev/null; then
-              echo "Localet client exited before publishing a usable URL."
-              cat localet.log
+              echo "cloudflared exited before a public URL became healthy."
+              cat cloudflared.log
               exit 1
             fi
-            # Probe every five cycles so a dead candidate cannot stall startup.
-            if [ $((i % 5)) -eq 1 ]; then
-              CANDIDATES=$(grep -Eo 'https?://[[:alnum:].-]+\.lclt\.ir' localet.log | sort -u || true)
-              for candidate in $CANDIDATES; do
-                # A hostname is accepted only if it serves this app's health endpoint.
-                if curl --fail --silent --show-error --connect-timeout 2 --max-time 3 \
-                     "$candidate/api/health" -o /tmp/picohub-public-health.json 2>/dev/null &&
-                   python -c 'import json,sys; d=json.load(sys.stdin); sys.exit(0 if d.get("ok") is True and d.get("database_configured") is True else 1)' \
-                     < /tmp/picohub-public-health.json; then
-                  URL="$candidate"
-                  break 2
-                fi
-              done
-            fi
+            CANDIDATES=$(grep -Eo 'https://[[:alnum:]-]+\.trycloudflare\.com' cloudflared.log | sort -u || true)
+            for candidate in $CANDIDATES; do
+              if curl --fail --silent --connect-timeout 2 --max-time 5 \
+                   "$candidate/api/health" -o /tmp/picohub-public-health.json 2>/dev/null &&
+                 python -c 'import json,sys; d=json.load(sys.stdin); sys.exit(0 if d.get("ok") is True and d.get("database_configured") is True else 1)' \
+                   < /tmp/picohub-public-health.json; then
+                URL="$candidate"
+                break 2
+              fi
+            done
             sleep 2
           done
           if [ -z "$URL" ]; then
-            cat localet.log
-            echo "Could not detect the public Localet URL from client output."
+            cat cloudflared.log
+            echo "No externally reachable Cloudflare URL passed the PicoHub health check."
             exit 1
           fi
+          echo "Verified PicoHub public URL: $URL"
           export PICOHUB_PUBLIC_URL="$URL"
           python - <<'PY'
-          import base64, json, os, re, urllib.error, urllib.request
+          import base64, json, os, re, urllib.request
           repo = os.environ["GITHUB_REPOSITORY"]
           token = os.environ["GH_TOKEN"]
           url = os.environ["PICOHUB_PUBLIC_URL"]
@@ -110,10 +111,10 @@ jobs:
               "Authorization": f"Bearer {token}",
               "Accept": "application/vnd.github+json",
               "X-GitHub-Api-Version": "2022-11-28",
-              "User-Agent": "PicoHub-Localet-Workflow",
+              "User-Agent": "PicoHub-Cloudflare-Workflow",
           }
           req = urllib.request.Request(api, headers=headers)
-          with urllib.request.urlopen(req) as response:
+          with urllib.request.urlopen(req, timeout=20) as response:
               current = json.load(response)
           content = base64.b64decode(current["content"]).decode("utf-8")
           line = f"**Live URL:** [{url}]({url})"
@@ -122,33 +123,37 @@ jobs:
               updated = re.sub(pattern, lambda _: line, content, count=1)
           else:
               updated = content.replace(
-                  "## GitHub Actions + Localet tunnel",
-                  "## GitHub Actions + Localet tunnel\n\n" + line,
+                  "## GitHub Actions + Cloudflare Quick Tunnel",
+                  "## GitHub Actions + Cloudflare Quick Tunnel\n\n" + line,
                   1,
               )
           if updated != content:
               payload = json.dumps({
-                  "message": "Update PicoHub live Localet URL",
+                  "message": "Update verified PicoHub Cloudflare Quick Tunnel URL",
                   "content": base64.b64encode(updated.encode()).decode(),
                   "sha": current["sha"],
                   "branch": "main",
               }).encode()
-              put = urllib.request.Request(api, data=payload, headers={**headers, "Content-Type": "application/json"}, method="PUT")
-              with urllib.request.urlopen(put) as response:
+              put = urllib.request.Request(
+                  api, data=payload,
+                  headers={**headers, "Content-Type": "application/json"},
+                  method="PUT",
+              )
+              with urllib.request.urlopen(put, timeout=20) as response:
                   response.read()
-              print("README live URL updated.")
+              print("README updated with the verified live URL.")
           else:
-              print("README already contains the current live URL.")
+              print("README already contains the verified live URL.")
           PY
           FAILURES=0
           END=$((SECONDS + 340*60))
           while [ "$SECONDS" -lt "$END" ]; do
             if ! kill -0 "$TUNNEL_PID" 2>/dev/null; then
-              echo "Localet client stopped."
-              cat localet.log
+              echo "cloudflared stopped."
+              cat cloudflared.log
               exit 1
             fi
-            if ! pgrep -f "uvicorn app:app --host 0.0.0.0 --port 8080" >/dev/null; then
+            if ! kill -0 "$APP_PID" 2>/dev/null; then
               echo "PicoHub app process stopped."
               cat app.log
               exit 1
@@ -171,7 +176,7 @@ jobs:
               echo "Public health check failed ($FAILURES/5)."
               if [ "$FAILURES" -ge 5 ]; then
                 echo "Public tunnel failed five consecutive health checks."
-                cat localet.log
+                cat cloudflared.log
                 exit 1
               fi
             fi
@@ -182,5 +187,5 @@ jobs:
         run: |
           echo "---- app.log ----"
           cat app.log || true
-          echo "---- localet.log ----"
-          cat localet.log || true
+          echo "---- cloudflared.log ----"
+          cat cloudflared.log || true
