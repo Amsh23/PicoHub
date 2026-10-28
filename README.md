@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://council-fence-attempting-atmospheric.trycloudflare.com](https://council-fence-attempting-atmospheric.trycloudflare.com)
-**Cloudflare fallback:** [https://council-fence-attempting-atmospheric.trycloudflare.com](https://council-fence-attempting-atmospheric.trycloudflare.com)
+**Live URL:** [https://create-transactions-liabilities-beaver.trycloudflare.com](https://create-transactions-liabilities-beaver.trycloudflare.com)
+**Cloudflare fallback:** [https://create-transactions-liabilities-beaver.trycloudflare.com](https://create-transactions-liabilities-beaver.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
