@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.responses import HTMLResponse
-import turso_serverless
+import libsql
 
 app = FastAPI(title="PicoHub")
 BASE = Path(__file__).parent
@@ -16,7 +16,7 @@ def db():
     if not TURSO_DATABASE_URL or not TURSO_AUTH_TOKEN:
         raise HTTPException(503, "Database is not configured. Add TURSO_DATABASE_URL and TURSO_AUTH_TOKEN.")
     try:
-        return turso_serverless.connect(TURSO_DATABASE_URL, auth_token=TURSO_AUTH_TOKEN)
+        return libsql.connect(database=TURSO_DATABASE_URL, auth_token=TURSO_AUTH_TOKEN)
     except Exception as exc:
         raise HTTPException(503, f"Could not connect to the database: {type(exc).__name__}") from exc
 
