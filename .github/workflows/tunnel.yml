@@ -18,7 +18,8 @@ concurrency:
 
 jobs:
   run-tunnel:
-    runs-on: ubuntu-latest
+    # Try the older hosted image to test whether Localet connectivity differs across runner pools.
+    runs-on: ubuntu-22.04
     timeout-minutes: 350
     env:
       TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
