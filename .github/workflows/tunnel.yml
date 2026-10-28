@@ -1,14 +1,17 @@
-name: PicoHub temporary public tunnel
+name: PicoHub Localet tunnel
+
 on:
   push:
+    paths-ignore:
+      - "README.md"
   workflow_dispatch:
   schedule:
     - cron: "0 */6 * * *"
 
 permissions:
-  contents: read
+  contents: write
 
-# Scheduled runs replace the previous run. Runners are temporary, not an always-on host.
+# GitHub-hosted runners are temporary; this job is restarted periodically.
 concurrency:
   group: picohub-public-tunnel
   cancel-in-progress: true
@@ -20,70 +23,122 @@ jobs:
     env:
       TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
       TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+      LOCALET_TOKEN: ${{ secrets.loacalet_token }}
+      GH_TOKEN: ${{ github.token }}
+      GITHUB_REPOSITORY: ${{ github.repository }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-      - name: Install dependencies
+          python-version: "3.12"
+      - name: Install PicoHub dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Check Turso secrets
+      - name: Validate required secrets
+        shell: bash
         run: |
-          test -n "$TURSO_DATABASE_URL" || (echo "Missing repository secret TURSO_DATABASE_URL" && exit 1)
-          test -n "$TURSO_AUTH_TOKEN" || (echo "Missing repository secret TURSO_AUTH_TOKEN" && exit 1)
+          test -n "$TURSO_DATABASE_URL" || { echo "Missing secret TURSO_DATABASE_URL"; exit 1; }
+          test -n "$TURSO_AUTH_TOKEN" || { echo "Missing secret TURSO_AUTH_TOKEN"; exit 1; }
+          test -n "$LOCALET_TOKEN" || { echo "Missing secret loacalet_token"; exit 1; }
+      - name: Install Localet Linux client
+        run: |
+          curl -fL --retry 3 "https://localet.ir/download/f/localet-linux-amd64" -o localet
+          chmod +x localet
+          ./localet version
       - name: Start PicoHub
         run: |
-          nohup uvicorn app:app --host 0.0.0.0 --port 8000 > app.log 2>&1 &
+          nohup uvicorn app:app --host 0.0.0.0 --port 8080 > app.log 2>&1 &
+          APP_PID=$!
           for i in $(seq 1 30); do
-            if curl --fail --silent http://127.0.0.1:8000/api/health >/dev/null; then
-              echo "PicoHub server is responding."
-              break
+            if curl --fail --silent http://127.0.0.1:8080/api/health >/dev/null; then
+              echo "PicoHub server is responding on port 8080."
+              exit 0
             fi
-            sleep 2
-          done
-          curl --fail http://127.0.0.1:8000/api/health
-      - name: Install Cloudflare Tunnel client
-        run: |
-          curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o cloudflared
-          chmod +x cloudflared
-      - name: Start public tunnel and keep job alive
-        run: |
-          ./cloudflared tunnel --no-autoupdate --url http://127.0.0.1:8000 > tunnel.log 2>&1 &
-          TUNNEL_PID=$!
-          for i in $(seq 1 60); do
-            URL=$(grep -Eo 'https://[a-zA-Z0-9-]+\.trycloudflare\.com' tunnel.log | head -n 1 || true)
-            if [ -n "$URL" ]; then
-              echo "=================================================="
-              echo "PicoHub public URL: $URL"
-              echo "This temporary URL changes when the tunnel restarts."
-              echo "=================================================="
-              break
-            fi
-            if ! kill -0 "$TUNNEL_PID" 2>/dev/null; then
-              cat tunnel.log
+            if ! kill -0 "$APP_PID" 2>/dev/null; then
+              cat app.log
               exit 1
             fi
             sleep 2
           done
-          if [ -z "${URL:-}" ]; then
-            cat tunnel.log
-            echo "Could not obtain a Cloudflare Quick Tunnel URL."
+          cat app.log
+          echo "PicoHub did not become ready."
+          exit 1
+      - name: Start Localet tunnel, publish URL, and keep runner alive
+        shell: bash
+        run: |
+          ./localet client --server tunnel.lclt.ir --token "$LOCALET_TOKEN" --port 8080 > localet.log 2>&1 &
+          TUNNEL_PID=$!
+          URL=""
+          for i in $(seq 1 90); do
+            URL=$(grep -Eo 'https?://[[:alnum:].-]+\.lclt\.ir' localet.log | head -n 1 || true)
+            if [ -n "$URL" ]; then
+              echo "PicoHub public URL: $URL"
+              break
+            fi
+            if ! kill -0 "$TUNNEL_PID" 2>/dev/null; then
+              cat localet.log
+              exit 1
+            fi
+            sleep 2
+          done
+          if [ -z "$URL" ]; then
+            cat localet.log
+            echo "Could not detect the public Localet URL from client output."
             exit 1
           fi
-          # Keep the runner alive while checking that both processes are still running.
+          export PICOHUB_PUBLIC_URL="$URL"
+          python - <<'PY'
+          import base64, json, os, re, urllib.error, urllib.request
+          repo = os.environ["GITHUB_REPOSITORY"]
+          token = os.environ["GH_TOKEN"]
+          url = os.environ["PICOHUB_PUBLIC_URL"]
+          api = f"https://api.github.com/repos/{repo}/contents/README.md"
+          headers = {
+              "Authorization": f"Bearer {token}",
+              "Accept": "application/vnd.github+json",
+              "X-GitHub-Api-Version": "2022-11-28",
+              "User-Agent": "PicoHub-Localet-Workflow",
+          }
+          req = urllib.request.Request(api, headers=headers)
+          with urllib.request.urlopen(req) as response:
+              current = json.load(response)
+          content = base64.b64decode(current["content"]).decode("utf-8")
+          line = f"**Live URL:** [{url}]({url})"
+          pattern = r"(?m)^\*\*Live URL:\*\*.*$"
+          if re.search(pattern, content):
+              updated = re.sub(pattern, lambda _: line, content, count=1)
+          else:
+              updated = content.replace(
+                  "## GitHub Actions + Localet tunnel",
+                  "## GitHub Actions + Localet tunnel\n\n" + line,
+                  1,
+              )
+          if updated != content:
+              payload = json.dumps({
+                  "message": "Update PicoHub live Localet URL",
+                  "content": base64.b64encode(updated.encode()).decode(),
+                  "sha": current["sha"],
+                  "branch": "main",
+              }).encode()
+              put = urllib.request.Request(api, data=payload, headers={**headers, "Content-Type": "application/json"}, method="PUT")
+              with urllib.request.urlopen(put) as response:
+                  response.read()
+              print("README live URL updated.")
+          else:
+              print("README already contains the current live URL.")
+          PY
           END=$((SECONDS + 340*60))
           while [ "$SECONDS" -lt "$END" ]; do
             if ! kill -0 "$TUNNEL_PID" 2>/dev/null; then
-              echo "Tunnel process stopped."
-              cat tunnel.log
+              echo "Localet client stopped."
+              cat localet.log
               exit 1
             fi
-            if ! kill -0 "$(pgrep -f 'uvicorn app:app' | head -n 1)" 2>/dev/null; then
-              echo "App process stopped."
+            if ! pgrep -f "uvicorn app:app --host 0.0.0.0 --port 8080" >/dev/null; then
+              echo "PicoHub app process stopped."
               cat app.log
               exit 1
             fi
@@ -94,5 +149,5 @@ jobs:
         run: |
           echo "---- app.log ----"
           cat app.log || true
-          echo "---- tunnel.log ----"
-          cat tunnel.log || true
+          echo "---- localet.log ----"
+          cat localet.log || true
