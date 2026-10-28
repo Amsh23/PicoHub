@@ -46,7 +46,7 @@ CATEGORY_LOOKUP = {
 
 
 def canonical_category(value: str) -> str:
-    key = re.sub(r"\\s+", " ", str(value or "").strip()).casefold()
+    key = re.sub(r"\s+", " ", str(value or "").strip()).casefold()
     return CATEGORY_LOOKUP.get(key, "other")
 
 
