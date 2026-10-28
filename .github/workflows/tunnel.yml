@@ -92,7 +92,7 @@ jobs:
                   except Exception as exc:
                       print(f"TCP {address}:{port}: {type(exc).__name__}: {exc}")
           with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as env:
-              env.write(f"LOCALET_NETWORK_REACHABLE={'1' if reachable else '0'}\\n")
+              env.write(f"LOCALET_NETWORK_REACHABLE={'1' if reachable else '0'}\n")
           if not reachable:
               print("::warning::GitHub-hosted runner cannot reach tunnel.lclt.ir on TCP 443 or 4443; Localet will be skipped and Cloudflare will keep PicoHub reachable.")
           PY
@@ -231,15 +231,23 @@ jobs:
           with urllib.request.urlopen(urllib.request.Request(api, headers=headers), timeout=20) as response:
               current = json.load(response)
           content = base64.b64decode(current["content"]).decode("utf-8")
-          line = f"**Live URL:** [{url}]({url})"
-          pattern = r"(?m)^\*\*Live URL:\*\*.*$"
-          updated = re.sub(pattern, lambda _: line, content, count=1) if re.search(pattern, content) else content
-          mode_line = f"**Tunnel:** {mode}"
-          mode_pattern = r"(?m)^\*\*Tunnel:\*\*.*$"
-          if re.search(mode_pattern, updated):
-              updated = re.sub(mode_pattern, lambda _: mode_line, updated, count=1)
+          live_line = f"**Live URL:** [{url}]({url})"
+          def replace_line(source, label, value):
+              pattern = rf"(?m)^{re.escape(label)}.*$"
+              new_line = f"{label} {value}"
+              if re.search(pattern, source):
+                  return re.sub(pattern, lambda _: new_line, source, count=1)
+              return source.replace(live_line, live_line + "\\n" + new_line, 1)
+          updated = replace_line(content, "**Live URL:**", f"[{url}]({url})")
+          if mode == "Localet":
+              localet_value = f"[{url}]({url})"
+              cloudflare_value = "_Inactive in this run; Localet passed the public health check._"
           else:
-              updated = updated.replace(line, line + "\n" + mode_line, 1)
+              localet_value = "_Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._"
+              cloudflare_value = f"[{url}]({url})"
+          updated = replace_line(updated, "**Localet URL:**", localet_value)
+          updated = replace_line(updated, "**Cloudflare fallback:**", cloudflare_value)
+          updated = replace_line(updated, "**Tunnel:**", mode)
           if updated != content:
               payload = json.dumps({
                   "message": "Update verified PicoHub public tunnel URL",
