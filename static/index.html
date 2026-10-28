@@ -223,7 +223,7 @@ function fileExt(name){const bits=String(name||"").split(".");return bits.length
 function renderCard(item){
  const article=document.createElement("article");article.className="post";
  const top=document.createElement("div");top.className="post-top";
- const cat=document.createElement("span");cat.className="cat-badge";cat.textContent=catLabel(item.category);
+ const cat=document.createElement("span");cat.className="cat-badge";const category=CATEGORIES.find(entry=>entry.key===item.category);cat.textContent=(category?category.icon+" ":"")+catLabel(item.category);
  const ext=document.createElement("span");ext.className="file-type";ext.textContent=fileExt(item.file_name||"CONFIG");
  top.append(cat,ext);
  const h=document.createElement("h3");h.textContent=item.title||t("fileLabelShort");
@@ -251,7 +251,7 @@ async function renderLibrary(reset = true){
   if(reset && !items.length){$("feed").appendChild(makeEmpty(q||category?t("noResultsTitle"):t("emptyTitle"),q||category?t("noResultsText"):t("emptyText")));}
   items.forEach(item=>$("feed").appendChild(renderCard(item)));
   offset=(data.offset||0)+items.length;hasMore=Boolean(data.has_more);
-  $("resultCount").textContent=offset?String(offset)+" "+t("resultsShown"):"";
+  $("resultCount").textContent=offset?new Intl.NumberFormat(lang==="fa"?"fa-IR":"en-US").format(offset)+" "+t("resultsShown"):"";
   $("loadMore").classList.toggle("hidden",!hasMore);
  }catch(error){console.error("PicoHub library request failed:",error);if(reset)$("feed").replaceChildren(makeEmpty(t("pageError"),t("pageErrorSub")));$("resultCount").textContent="";$("loadMore").classList.add("hidden");}
 }
