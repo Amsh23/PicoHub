@@ -25,7 +25,7 @@ jobs:
           scripts = re.findall(r"<script>(.*?)</script>", html, flags=re.S)
           if not scripts:
               raise SystemExit("No inline JavaScript block found")
-          Path("/tmp/picohub-inline.js").write_text("\\n".join(scripts), encoding="utf-8")
+          Path("/tmp/picohub-inline.js").write_text("\n".join(scripts), encoding="utf-8")
           PY
           node --check /tmp/picohub-inline.js
       - name: Smoke-test secret masking
@@ -43,4 +43,45 @@ jobs:
               if secret in result:
                   raise SystemExit("Secret masking smoke test failed")
           print("Secret masking smoke tests passed.")
+          PY
+
+      - name: Test category normalization and bilingual controls
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from app import canonical_category
+
+          cases = {
+              "channels": ["channels", "messaging", "تلگرام و پیام‌رسان‌ها"],
+              "providers": ["providers", "models", "مدل‌ها و Providerها"],
+              "tools": ["tools", "mcp", "ابزارها و اتصال‌ها"],
+              "automation": ["automation", "اتوماسیون و زمان‌بندی"],
+              "workflows": ["workflows", "گردش‌کارها"],
+              "skills": ["skills", "پرامپت‌ها"],
+              "memory": ["memory", "حافظه و دانش"],
+              "voice": ["voice", "صدا و گفتار"],
+              "android": ["android", "اندروید و Termux"],
+              "integrations": ["integrations", "اتصال‌ها و APIها"],
+              "security": ["security", "امنیت و حریم خصوصی"],
+              "templates": ["templates", "قالب‌های شروع"],
+              "productivity": ["productivity", "بهره‌وری و دستیارها"],
+              "other": ["other", "misc"],
+          }
+          for expected, aliases in cases.items():
+              for alias in aliases:
+                  actual = canonical_category(alias)
+                  if actual != expected:
+                      raise SystemExit(f"Category alias {alias!r}: expected {expected!r}, got {actual!r}")
+
+          html = Path("static/index.html").read_text(encoding="utf-8")
+          for key in cases:
+              if f'key:"{key}"' not in html:
+                  raise SystemExit(f"Frontend taxonomy is missing {key!r}")
+          if 'localStorage.setItem("picohub-language",lang)' not in html:
+              raise SystemExit("Language preference is not persisted")
+          if 'renderLibrary(true);' not in html:
+              raise SystemExit("Language/filter changes must reset library pagination")
+          if 'sort:$("sortBy").value||"newest"' not in html:
+              raise SystemExit("Frontend sorting is not connected to the API")
+          print("Category aliases, taxonomy, language persistence, and sorting checks passed.")
           PY
