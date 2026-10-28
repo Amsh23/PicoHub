@@ -34,6 +34,7 @@ In **Settings → Secrets and variables → Actions**, set these repository secr
 - `TURSO_DATABASE_URL` — the Turso/libSQL database URL.
 - `TURSO_AUTH_TOKEN` — the Turso auth token.
 - `LOCALET_SUBDOMAIN` — optional. Put the subdomain/hostname reserved in your Localet account if your installed Localet client supports a subdomain/domain argument. If the account reserves the hostname through its dashboard/token instead, configure it there as well.
+- `LOCALET_SERVER` — optional advanced setting. Leave it unset to use `tunnel.lclt.ir`; if Localet support supplies alternate relay hostnames for your account, you can enter their comma-separated list here. The workflow tries `auto`, WebSocket, QUIC and TCP before choosing the fallback.
 
 To start manually, open **Actions → PicoHub Localet tunnel → Run workflow**. A scheduled restart is configured every six hours. GitHub-hosted runners are temporary; a tunnel on Actions is not guaranteed 24/7. The fallback `trycloudflare.com` URL is temporary and changes when recreated. For a permanent Localet hostname, the subdomain must actually be reserved/active in your Localet account, and Localet must be reachable from the runner.
 
