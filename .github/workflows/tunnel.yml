@@ -237,7 +237,7 @@ jobs:
               new_line = f"{label} {value}"
               if re.search(pattern, source):
                   return re.sub(pattern, lambda _: new_line, source, count=1)
-              return source.replace(live_line, live_line + "\\n" + new_line, 1)
+              return source.replace(live_line, live_line + "\n" + new_line, 1)
           updated = replace_line(content, "**Live URL:**", f"[{url}]({url})")
           if mode == "Localet":
               localet_value = f"[{url}]({url})"
