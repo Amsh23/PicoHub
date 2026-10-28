@@ -11,16 +11,15 @@ uvicorn app:app --reload --port 8000
 ```
 Open http://127.0.0.1:8000
 
-## GitHub Actions + Localet tunnel
+## GitHub Actions + Cloudflare Quick Tunnel
 
 **Live URL:** _در حال راه‌اندازی؛ لینک فقط بعد از تأیید پاسخ واقعی برنامه در این بخش ثبت می‌شود._
 
 In repository **Settings → Secrets and variables → Actions**, configure these repository secrets:
-- `loacalet_token`: Localet client token (the secret name is intentionally the exact spelling used in this repository)
 - `TURSO_DATABASE_URL`: your Turso database URL (usually starts with `libsql://`)
 - `TURSO_AUTH_TOKEN`: your Turso auth token
 
-Open **Actions → PicoHub Localet tunnel → Run workflow** to start it manually. The workflow uses Localet on port 8080 and updates this README with the public URL once it detects it. A scheduled run is configured every six hours. GitHub-hosted runners are temporary and impose execution limits, so this is not guaranteed 24/7 hosting; the tunnel may briefly disconnect and its URL may change between runs.
+Open **Actions → PicoHub Cloudflare Quick Tunnel → Run workflow** to start it manually. The workflow exposes port 8080 through Cloudflare Quick Tunnel and updates this README only after the public URL passes the app's `/api/health` check. A scheduled run is configured every six hours. No Localet token or Cloudflare account is required. Quick Tunnel URLs are temporary and change when a new tunnel starts; GitHub-hosted runners are temporary, so this is not guaranteed 24/7 hosting. Quick Tunnels are intended for testing/development rather than production. See the [official Cloudflare Quick Tunnel documentation](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/).
 
 ## Turso
 Create a database at https://turso.tech. The app creates its metadata table at startup.
