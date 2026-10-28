@@ -4,9 +4,9 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://edinburgh-professor-everything-gore.trycloudflare.com](https://edinburgh-professor-everything-gore.trycloudflare.com)
+**Live URL:** _Waiting for the next externally verified tunnel URL._
 
-**Tunnel:** _Localet first; verified Cloudflare Quick Tunnel fallback if Localet cannot connect from GitHub Actions._
+**Tunnel:** _Localet primary; Cloudflare fallback only when needed._
 
 ## Features / امکانات
 
