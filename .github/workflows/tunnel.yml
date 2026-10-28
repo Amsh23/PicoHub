@@ -78,17 +78,20 @@ jobs:
               cat localet.log
               exit 1
             fi
-            CANDIDATES=$(grep -Eo 'https?://[[:alnum:].-]+\.lclt\.ir' localet.log | sort -u || true)
-            for candidate in $CANDIDATES; do
-              # A hostname is accepted only if it serves this app's health endpoint.
-              if curl --fail --silent --show-error --connect-timeout 4 --max-time 8 \
-                   "$candidate/api/health" -o /tmp/picohub-public-health.json 2>/dev/null &&
-                 python -c 'import json,sys; d=json.load(sys.stdin); sys.exit(0 if d.get("ok") is True and d.get("database_configured") is True else 1)' \
-                   < /tmp/picohub-public-health.json; then
-                URL="$candidate"
-                break 2
-              fi
-            done
+            # Probe every five cycles so a dead candidate cannot stall startup.
+            if [ $((i % 5)) -eq 1 ]; then
+              CANDIDATES=$(grep -Eo 'https?://[[:alnum:].-]+\.lclt\.ir' localet.log | sort -u || true)
+              for candidate in $CANDIDATES; do
+                # A hostname is accepted only if it serves this app's health endpoint.
+                if curl --fail --silent --show-error --connect-timeout 2 --max-time 3 \
+                     "$candidate/api/health" -o /tmp/picohub-public-health.json 2>/dev/null &&
+                   python -c 'import json,sys; d=json.load(sys.stdin); sys.exit(0 if d.get("ok") is True and d.get("database_configured") is True else 1)' \
+                     < /tmp/picohub-public-health.json; then
+                  URL="$candidate"
+                  break 2
+                fi
+              done
+            fi
             sleep 2
           done
           if [ -z "$URL" ]; then
