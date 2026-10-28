@@ -25,6 +25,7 @@ jobs:
       TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
       LOCALET_TOKEN: ${{ secrets.loacalet_token }}
       LOCALET_SUBDOMAIN: ${{ secrets.LOCALET_SUBDOMAIN }}
+      LOCALET_SERVER: ${{ secrets.LOCALET_SERVER }}
       GH_TOKEN: ${{ github.token }}
       GITHUB_REPOSITORY: ${{ github.repository }}
     steps:
@@ -94,7 +95,7 @@ jobs:
           with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as env:
               env.write(f"LOCALET_NETWORK_REACHABLE={'1' if reachable else '0'}\n")
           if not reachable:
-              print("::warning::GitHub-hosted runner cannot reach tunnel.lclt.ir on TCP 443 or 4443; Localet will be skipped and Cloudflare will keep PicoHub reachable.")
+              print("::warning::TCP preflight could not reach tunnel.lclt.ir on 443/4443. Localet will still be tested directly with auto, WebSocket, QUIC and TCP transports before using Cloudflare fallback.")
           PY
       - name: Start PicoHub
         shell: bash
@@ -120,32 +121,39 @@ jobs:
           URL=""
           TUNNEL_PID=""
           TUNNEL_MODE=""
-          if [ "${LOCALET_BINARY_READY:-0}" = "1" ] && [ -n "$LOCALET_TOKEN" ] && [ "${LOCALET_NETWORK_REACHABLE:-0}" = "1" ]; then
-            LOCAL_ARGS=(client --server tunnel.lclt.ir --token "$LOCALET_TOKEN" --port 8080)
-            LOCAL_HELP=$(cat localet-help.log 2>/dev/null || true)
+          LOCAL_HELP=$(cat localet-help.log 2>/dev/null || true)
+          LOCALET_SERVER="${LOCALET_SERVER:-tunnel.lclt.ir}"
+          LOCALET_READY="${LOCALET_BINARY_READY:-0}"
+
+          # TCP preflight is diagnostic only: it cannot determine whether UDP/QUIC works.
+          # Try Localet even after a failed probe, in each supported transport mode.
+          if [ "$LOCALET_READY" = "1" ] && [ -n "$LOCALET_TOKEN" ]; then
+            BASE_ARGS=(client --server "$LOCALET_SERVER" --token "$LOCALET_TOKEN" --port 8080)
             if [ -n "$LOCALET_SUBDOMAIN" ]; then
               SUBDOMAIN_VALUE="$LOCALET_SUBDOMAIN"
               SUBDOMAIN_VALUE="${SUBDOMAIN_VALUE#https://}"
               SUBDOMAIN_VALUE="${SUBDOMAIN_VALUE#http://}"
               SUBDOMAIN_VALUE="${SUBDOMAIN_VALUE%/}"
-              if grep -q -- "--subdomain" <<< "$LOCAL_HELP"; then
-                LOCAL_ARGS+=(--subdomain "$SUBDOMAIN_VALUE")
-              elif grep -q -- "--domain" <<< "$LOCAL_HELP"; then
-                LOCAL_ARGS+=(--domain "$SUBDOMAIN_VALUE")
+              if grep -Eq -- '(^|[[:space:]])-{1,2}subdomain([[:space:]]|$)' <<< "$LOCAL_HELP"; then
+                BASE_ARGS+=(--subdomain "$SUBDOMAIN_VALUE")
               else
-                echo "LOCALET_SUBDOMAIN is set; verify the reservation/hostname in the Localet dashboard."
+                echo "WARNING: This Localet client did not advertise a subdomain flag; checking the configured hostname separately."
               fi
             fi
-            ./localet "${LOCAL_ARGS[@]}" > localet.log 2>&1 &
-            LOCAL_PID=$!
-            echo "Started Localet as the primary tunnel."
-            for i in $(seq 1 60); do
-              if ! kill -0 "$LOCAL_PID" 2>/dev/null; then
-                echo "Localet client exited; switching to fallback tunnel."
-                break
-              fi
-              if [ $((i % 4)) -eq 0 ]; then
-                CANDIDATES=$(grep -Eo 'https?://[[:alnum:].-]+' localet.log | sort -u || true)
+
+            for transport in auto ws quic tcp; do
+              echo "Trying Localet transport: $transport (server: $LOCALET_SERVER)"
+              LOCAL_LOG="localet-${transport}.log"
+              LOCAL_ARGS=("${BASE_ARGS[@]}" --transport "$transport")
+              ./localet "${LOCAL_ARGS[@]}" > "$LOCAL_LOG" 2>&1 &
+              LOCAL_PID=$!
+              # Allow connection setup while bounding each transport attempt to 40 seconds.
+              for i in $(seq 1 20); do
+                if ! kill -0 "$LOCAL_PID" 2>/dev/null; then
+                  echo "Localet transport $transport exited during setup."
+                  break
+                fi
+                CANDIDATES=$(grep -Eo 'https?://[[:alnum:].-]+' "$LOCAL_LOG" | sort -u || true)
                 if [ -n "$LOCALET_SUBDOMAIN" ]; then
                   SUBDOMAIN_VALUE="$LOCALET_SUBDOMAIN"
                   SUBDOMAIN_VALUE="${SUBDOMAIN_VALUE#https://}"
@@ -158,27 +166,33 @@ jobs:
                   case "$candidate" in
                     https://tunnel.lclt.ir|http://tunnel.lclt.ir|https://localet.ir|http://localet.ir) continue ;;
                   esac
-                  if curl --fail --silent --connect-timeout 2 --max-time 4 "$candidate/api/health" -o /tmp/picohub-public-health.json 2>/dev/null &&
+                  if curl --fail --silent --connect-timeout 3 --max-time 6 "$candidate/api/health" -o /tmp/picohub-public-health.json 2>/dev/null &&
                      python -c 'import json,sys; d=json.load(sys.stdin); sys.exit(0 if d.get("ok") is True and d.get("database_reachable") is True else 1)' < /tmp/picohub-public-health.json; then
                     URL="$candidate"
                     TUNNEL_PID="$LOCAL_PID"
-                    TUNNEL_MODE="Localet"
+                    TUNNEL_MODE="Localet ($transport)"
                     break 2
                   fi
                 done
+                sleep 2
+              done
+              if [ -z "$URL" ]; then
+                kill "$LOCAL_PID" 2>/dev/null || true
+                sleep 1
+                kill -0 "$LOCAL_PID" 2>/dev/null && kill -9 "$LOCAL_PID" 2>/dev/null || true
+                echo "Localet transport $transport did not produce a URL passing the public health check."
+                cat "$LOCAL_LOG" || true
               fi
-              sleep 2
             done
+
             if [ -z "$URL" ]; then
-              kill "$LOCAL_PID" 2>/dev/null || true
-              sleep 1
-              echo "Localet did not provide a publicly healthy URL. Switching to Cloudflare fallback."
+              echo "All Localet transports failed public verification; Cloudflare fallback will be attempted."
             fi
           else
-            if [ "${LOCALET_BINARY_READY:-0}" != "1" ] || [ -z "$LOCALET_TOKEN" ]; then
-              echo "Localet binary/token is missing; switching to Cloudflare fallback."
-            elif [ "${LOCALET_NETWORK_REACHABLE:-0}" != "1" ]; then
-              echo "Localet relay is not reachable from this GitHub-hosted runner on TCP 443/4443; switching to Cloudflare fallback."
+            if [ "$LOCALET_READY" != "1" ]; then
+              echo "Localet binary is unavailable; Cloudflare fallback will be attempted."
+            else
+              echo "Localet token is missing; Cloudflare fallback will be attempted."
             fi
           fi
 
