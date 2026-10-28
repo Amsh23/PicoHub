@@ -13,7 +13,7 @@ Open http://127.0.0.1:8000
 
 ## GitHub Actions + Localet tunnel
 
-**Live URL:** Not available until the Localet workflow successfully starts. The workflow updates this line automatically after detecting the public URL.
+**Live URL:** [https://tunnel.lclt.ir](https://tunnel.lclt.ir)
 
 In repository **Settings → Secrets and variables → Actions**, configure these repository secrets:
 - `loacalet_token`: Localet client token (the secret name is intentionally the exact spelling used in this repository)
