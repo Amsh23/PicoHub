@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://attachments-crowd-rochester-deals.trycloudflare.com](https://attachments-crowd-rochester-deals.trycloudflare.com)
-**Cloudflare fallback:** [https://attachments-crowd-rochester-deals.trycloudflare.com](https://attachments-crowd-rochester-deals.trycloudflare.com)
+**Live URL:** [https://leeds-snake-practices-structure.trycloudflare.com](https://leeds-snake-practices-structure.trycloudflare.com)
+**Cloudflare fallback:** [https://leeds-snake-practices-structure.trycloudflare.com](https://leeds-snake-practices-structure.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
