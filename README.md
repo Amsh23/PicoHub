@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://leeds-snake-practices-structure.trycloudflare.com](https://leeds-snake-practices-structure.trycloudflare.com)
-**Cloudflare fallback:** [https://leeds-snake-practices-structure.trycloudflare.com](https://leeds-snake-practices-structure.trycloudflare.com)
+**Live URL:** [https://fifty-cooperative-poultry-cartridges.trycloudflare.com](https://fifty-cooperative-poultry-cartridges.trycloudflare.com)
+**Cloudflare fallback:** [https://fifty-cooperative-poultry-cartridges.trycloudflare.com](https://fifty-cooperative-poultry-cartridges.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
