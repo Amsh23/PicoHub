@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://fifty-cooperative-poultry-cartridges.trycloudflare.com](https://fifty-cooperative-poultry-cartridges.trycloudflare.com)
-**Cloudflare fallback:** [https://fifty-cooperative-poultry-cartridges.trycloudflare.com](https://fifty-cooperative-poultry-cartridges.trycloudflare.com)
+**Live URL:** [https://alt-beverly-companies-ferry.trycloudflare.com](https://alt-beverly-companies-ferry.trycloudflare.com)
+**Cloudflare fallback:** [https://alt-beverly-companies-ferry.trycloudflare.com](https://alt-beverly-companies-ferry.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
