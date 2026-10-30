@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://hospitality-adjust-spectrum-corporations.trycloudflare.com](https://hospitality-adjust-spectrum-corporations.trycloudflare.com)
-**Cloudflare fallback:** [https://hospitality-adjust-spectrum-corporations.trycloudflare.com](https://hospitality-adjust-spectrum-corporations.trycloudflare.com)
+**Live URL:** [https://matching-object-watts-ethical.trycloudflare.com](https://matching-object-watts-ethical.trycloudflare.com)
+**Cloudflare fallback:** [https://matching-object-watts-ethical.trycloudflare.com](https://matching-object-watts-ethical.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
