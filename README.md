@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://vision-carnival-night-cleaner.trycloudflare.com](https://vision-carnival-night-cleaner.trycloudflare.com)
-**Cloudflare fallback:** [https://vision-carnival-night-cleaner.trycloudflare.com](https://vision-carnival-night-cleaner.trycloudflare.com)
+**Live URL:** [https://hospitality-adjust-spectrum-corporations.trycloudflare.com](https://hospitality-adjust-spectrum-corporations.trycloudflare.com)
+**Cloudflare fallback:** [https://hospitality-adjust-spectrum-corporations.trycloudflare.com](https://hospitality-adjust-spectrum-corporations.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
