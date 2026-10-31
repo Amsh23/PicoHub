@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://matching-object-watts-ethical.trycloudflare.com](https://matching-object-watts-ethical.trycloudflare.com)
-**Cloudflare fallback:** [https://matching-object-watts-ethical.trycloudflare.com](https://matching-object-watts-ethical.trycloudflare.com)
+**Live URL:** [https://enhanced-faster-taste-statutes.trycloudflare.com](https://enhanced-faster-taste-statutes.trycloudflare.com)
+**Cloudflare fallback:** [https://enhanced-faster-taste-statutes.trycloudflare.com](https://enhanced-faster-taste-statutes.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
