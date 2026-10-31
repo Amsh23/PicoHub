@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://enhanced-faster-taste-statutes.trycloudflare.com](https://enhanced-faster-taste-statutes.trycloudflare.com)
-**Cloudflare fallback:** [https://enhanced-faster-taste-statutes.trycloudflare.com](https://enhanced-faster-taste-statutes.trycloudflare.com)
+**Live URL:** [https://pretty-fighting-boats-voip.trycloudflare.com](https://pretty-fighting-boats-voip.trycloudflare.com)
+**Cloudflare fallback:** [https://pretty-fighting-boats-voip.trycloudflare.com](https://pretty-fighting-boats-voip.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
