@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://loop-restaurants-rehabilitation-underground.trycloudflare.com](https://loop-restaurants-rehabilitation-underground.trycloudflare.com)
-**Cloudflare fallback:** [https://loop-restaurants-rehabilitation-underground.trycloudflare.com](https://loop-restaurants-rehabilitation-underground.trycloudflare.com)
+**Live URL:** [https://pty-limitations-guam-geology.trycloudflare.com](https://pty-limitations-guam-geology.trycloudflare.com)
+**Cloudflare fallback:** [https://pty-limitations-guam-geology.trycloudflare.com](https://pty-limitations-guam-geology.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
