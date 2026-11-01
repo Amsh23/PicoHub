@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://pty-limitations-guam-geology.trycloudflare.com](https://pty-limitations-guam-geology.trycloudflare.com)
-**Cloudflare fallback:** [https://pty-limitations-guam-geology.trycloudflare.com](https://pty-limitations-guam-geology.trycloudflare.com)
+**Live URL:** [https://functionality-gas-collection-printer.trycloudflare.com](https://functionality-gas-collection-printer.trycloudflare.com)
+**Cloudflare fallback:** [https://functionality-gas-collection-printer.trycloudflare.com](https://functionality-gas-collection-printer.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
