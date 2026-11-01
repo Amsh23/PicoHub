@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://absent-watches-incidents-excellent.trycloudflare.com](https://absent-watches-incidents-excellent.trycloudflare.com)
-**Cloudflare fallback:** [https://absent-watches-incidents-excellent.trycloudflare.com](https://absent-watches-incidents-excellent.trycloudflare.com)
+**Live URL:** [https://entrepreneur-ship-subaru-tom.trycloudflare.com](https://entrepreneur-ship-subaru-tom.trycloudflare.com)
+**Cloudflare fallback:** [https://entrepreneur-ship-subaru-tom.trycloudflare.com](https://entrepreneur-ship-subaru-tom.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
