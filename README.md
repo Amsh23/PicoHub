@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://functionality-gas-collection-printer.trycloudflare.com](https://functionality-gas-collection-printer.trycloudflare.com)
-**Cloudflare fallback:** [https://functionality-gas-collection-printer.trycloudflare.com](https://functionality-gas-collection-printer.trycloudflare.com)
+**Live URL:** [https://absent-watches-incidents-excellent.trycloudflare.com](https://absent-watches-incidents-excellent.trycloudflare.com)
+**Cloudflare fallback:** [https://absent-watches-incidents-excellent.trycloudflare.com](https://absent-watches-incidents-excellent.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
