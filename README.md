@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://entrepreneur-ship-subaru-tom.trycloudflare.com](https://entrepreneur-ship-subaru-tom.trycloudflare.com)
-**Cloudflare fallback:** [https://entrepreneur-ship-subaru-tom.trycloudflare.com](https://entrepreneur-ship-subaru-tom.trycloudflare.com)
+**Live URL:** [https://loans-validation-questions-juice.trycloudflare.com](https://loans-validation-questions-juice.trycloudflare.com)
+**Cloudflare fallback:** [https://loans-validation-questions-juice.trycloudflare.com](https://loans-validation-questions-juice.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
