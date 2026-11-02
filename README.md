@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://loans-validation-questions-juice.trycloudflare.com](https://loans-validation-questions-juice.trycloudflare.com)
-**Cloudflare fallback:** [https://loans-validation-questions-juice.trycloudflare.com](https://loans-validation-questions-juice.trycloudflare.com)
+**Live URL:** [https://prospective-magazines-sox-gone.trycloudflare.com](https://prospective-magazines-sox-gone.trycloudflare.com)
+**Cloudflare fallback:** [https://prospective-magazines-sox-gone.trycloudflare.com](https://prospective-magazines-sox-gone.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
