@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://prospective-magazines-sox-gone.trycloudflare.com](https://prospective-magazines-sox-gone.trycloudflare.com)
-**Cloudflare fallback:** [https://prospective-magazines-sox-gone.trycloudflare.com](https://prospective-magazines-sox-gone.trycloudflare.com)
+**Live URL:** [https://unfortunately-talent-mason-nail.trycloudflare.com](https://unfortunately-talent-mason-nail.trycloudflare.com)
+**Cloudflare fallback:** [https://unfortunately-talent-mason-nail.trycloudflare.com](https://unfortunately-talent-mason-nail.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
