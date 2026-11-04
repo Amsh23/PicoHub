@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://continually-muscles-samples-assembly.trycloudflare.com](https://continually-muscles-samples-assembly.trycloudflare.com)
-**Cloudflare fallback:** [https://continually-muscles-samples-assembly.trycloudflare.com](https://continually-muscles-samples-assembly.trycloudflare.com)
+**Live URL:** [https://crossing-mar-conviction-explosion.trycloudflare.com](https://crossing-mar-conviction-explosion.trycloudflare.com)
+**Cloudflare fallback:** [https://crossing-mar-conviction-explosion.trycloudflare.com](https://crossing-mar-conviction-explosion.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
