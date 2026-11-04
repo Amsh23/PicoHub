@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://crossing-mar-conviction-explosion.trycloudflare.com](https://crossing-mar-conviction-explosion.trycloudflare.com)
-**Cloudflare fallback:** [https://crossing-mar-conviction-explosion.trycloudflare.com](https://crossing-mar-conviction-explosion.trycloudflare.com)
+**Live URL:** [https://insider-logged-character-assistant.trycloudflare.com](https://insider-logged-character-assistant.trycloudflare.com)
+**Cloudflare fallback:** [https://insider-logged-character-assistant.trycloudflare.com](https://insider-logged-character-assistant.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
