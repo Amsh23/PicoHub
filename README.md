@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://equation-continuously-postposted-herbal.trycloudflare.com](https://equation-continuously-postposted-herbal.trycloudflare.com)
-**Cloudflare fallback:** [https://equation-continuously-postposted-herbal.trycloudflare.com](https://equation-continuously-postposted-herbal.trycloudflare.com)
+**Live URL:** [https://continually-muscles-samples-assembly.trycloudflare.com](https://continually-muscles-samples-assembly.trycloudflare.com)
+**Cloudflare fallback:** [https://continually-muscles-samples-assembly.trycloudflare.com](https://continually-muscles-samples-assembly.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
