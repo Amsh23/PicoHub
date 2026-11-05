@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://discovered-exceed-biography-selection.trycloudflare.com](https://discovered-exceed-biography-selection.trycloudflare.com)
-**Cloudflare fallback:** [https://discovered-exceed-biography-selection.trycloudflare.com](https://discovered-exceed-biography-selection.trycloudflare.com)
+**Live URL:** [https://rapids-fat-surrounding-miscellaneous.trycloudflare.com](https://rapids-fat-surrounding-miscellaneous.trycloudflare.com)
+**Cloudflare fallback:** [https://rapids-fat-surrounding-miscellaneous.trycloudflare.com](https://rapids-fat-surrounding-miscellaneous.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
