@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://rapids-fat-surrounding-miscellaneous.trycloudflare.com](https://rapids-fat-surrounding-miscellaneous.trycloudflare.com)
-**Cloudflare fallback:** [https://rapids-fat-surrounding-miscellaneous.trycloudflare.com](https://rapids-fat-surrounding-miscellaneous.trycloudflare.com)
+**Live URL:** [https://titles-methods-administrator-pound.trycloudflare.com](https://titles-methods-administrator-pound.trycloudflare.com)
+**Cloudflare fallback:** [https://titles-methods-administrator-pound.trycloudflare.com](https://titles-methods-administrator-pound.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
