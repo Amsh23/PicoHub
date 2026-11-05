@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://insider-logged-character-assistant.trycloudflare.com](https://insider-logged-character-assistant.trycloudflare.com)
-**Cloudflare fallback:** [https://insider-logged-character-assistant.trycloudflare.com](https://insider-logged-character-assistant.trycloudflare.com)
+**Live URL:** [https://discovered-exceed-biography-selection.trycloudflare.com](https://discovered-exceed-biography-selection.trycloudflare.com)
+**Cloudflare fallback:** [https://discovered-exceed-biography-selection.trycloudflare.com](https://discovered-exceed-biography-selection.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
