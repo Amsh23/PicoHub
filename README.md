@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://paperback-doug-burning-citations.trycloudflare.com](https://paperback-doug-burning-citations.trycloudflare.com)
-**Cloudflare fallback:** [https://paperback-doug-burning-citations.trycloudflare.com](https://paperback-doug-burning-citations.trycloudflare.com)
+**Live URL:** [https://hist-lookup-closest-variations.trycloudflare.com](https://hist-lookup-closest-variations.trycloudflare.com)
+**Cloudflare fallback:** [https://hist-lookup-closest-variations.trycloudflare.com](https://hist-lookup-closest-variations.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
