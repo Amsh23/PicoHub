@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://figure-molecules-focal-lonely.trycloudflare.com](https://figure-molecules-focal-lonely.trycloudflare.com)
-**Cloudflare fallback:** [https://figure-molecules-focal-lonely.trycloudflare.com](https://figure-molecules-focal-lonely.trycloudflare.com)
+**Live URL:** [https://paperback-doug-burning-citations.trycloudflare.com](https://paperback-doug-burning-citations.trycloudflare.com)
+**Cloudflare fallback:** [https://paperback-doug-burning-citations.trycloudflare.com](https://paperback-doug-burning-citations.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
