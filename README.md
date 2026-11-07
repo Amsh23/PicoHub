@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://hist-lookup-closest-variations.trycloudflare.com](https://hist-lookup-closest-variations.trycloudflare.com)
-**Cloudflare fallback:** [https://hist-lookup-closest-variations.trycloudflare.com](https://hist-lookup-closest-variations.trycloudflare.com)
+**Live URL:** [https://scoring-july-diana-election.trycloudflare.com](https://scoring-july-diana-election.trycloudflare.com)
+**Cloudflare fallback:** [https://scoring-july-diana-election.trycloudflare.com](https://scoring-july-diana-election.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
