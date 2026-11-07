@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://mac-composer-nathan-packed.trycloudflare.com](https://mac-composer-nathan-packed.trycloudflare.com)
-**Cloudflare fallback:** [https://mac-composer-nathan-packed.trycloudflare.com](https://mac-composer-nathan-packed.trycloudflare.com)
+**Live URL:** [https://strikes-knitting-lookup-shut.trycloudflare.com](https://strikes-knitting-lookup-shut.trycloudflare.com)
+**Cloudflare fallback:** [https://strikes-knitting-lookup-shut.trycloudflare.com](https://strikes-knitting-lookup-shut.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
