@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://scoring-july-diana-election.trycloudflare.com](https://scoring-july-diana-election.trycloudflare.com)
-**Cloudflare fallback:** [https://scoring-july-diana-election.trycloudflare.com](https://scoring-july-diana-election.trycloudflare.com)
+**Live URL:** [https://mac-composer-nathan-packed.trycloudflare.com](https://mac-composer-nathan-packed.trycloudflare.com)
+**Cloudflare fallback:** [https://mac-composer-nathan-packed.trycloudflare.com](https://mac-composer-nathan-packed.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
