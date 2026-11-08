@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://warrior-memorial-sharing-students.trycloudflare.com](https://warrior-memorial-sharing-students.trycloudflare.com)
-**Cloudflare fallback:** [https://warrior-memorial-sharing-students.trycloudflare.com](https://warrior-memorial-sharing-students.trycloudflare.com)
+**Live URL:** [https://moss-organize-hills-pipes.trycloudflare.com](https://moss-organize-hills-pipes.trycloudflare.com)
+**Cloudflare fallback:** [https://moss-organize-hills-pipes.trycloudflare.com](https://moss-organize-hills-pipes.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
