@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://hdtv-reality-antique-picks.trycloudflare.com](https://hdtv-reality-antique-picks.trycloudflare.com)
-**Cloudflare fallback:** [https://hdtv-reality-antique-picks.trycloudflare.com](https://hdtv-reality-antique-picks.trycloudflare.com)
+**Live URL:** [https://chassis-courtesy-bean-methodology.trycloudflare.com](https://chassis-courtesy-bean-methodology.trycloudflare.com)
+**Cloudflare fallback:** [https://chassis-courtesy-bean-methodology.trycloudflare.com](https://chassis-courtesy-bean-methodology.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
