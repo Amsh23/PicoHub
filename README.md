@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://bugs-plus-stops-latina.trycloudflare.com](https://bugs-plus-stops-latina.trycloudflare.com)
-**Cloudflare fallback:** [https://bugs-plus-stops-latina.trycloudflare.com](https://bugs-plus-stops-latina.trycloudflare.com)
+**Live URL:** [https://consequently-databases-string-submissions.trycloudflare.com](https://consequently-databases-string-submissions.trycloudflare.com)
+**Cloudflare fallback:** [https://consequently-databases-string-submissions.trycloudflare.com](https://consequently-databases-string-submissions.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
