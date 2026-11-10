@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://assets-yard-brother-angeles.trycloudflare.com](https://assets-yard-brother-angeles.trycloudflare.com)
-**Cloudflare fallback:** [https://assets-yard-brother-angeles.trycloudflare.com](https://assets-yard-brother-angeles.trycloudflare.com)
+**Live URL:** [https://bugs-plus-stops-latina.trycloudflare.com](https://bugs-plus-stops-latina.trycloudflare.com)
+**Cloudflare fallback:** [https://bugs-plus-stops-latina.trycloudflare.com](https://bugs-plus-stops-latina.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
