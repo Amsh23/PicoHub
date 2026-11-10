@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://consequently-databases-string-submissions.trycloudflare.com](https://consequently-databases-string-submissions.trycloudflare.com)
-**Cloudflare fallback:** [https://consequently-databases-string-submissions.trycloudflare.com](https://consequently-databases-string-submissions.trycloudflare.com)
+**Live URL:** [https://philip-prophet-rfc-candidates.trycloudflare.com](https://philip-prophet-rfc-candidates.trycloudflare.com)
+**Cloudflare fallback:** [https://philip-prophet-rfc-candidates.trycloudflare.com](https://philip-prophet-rfc-candidates.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
