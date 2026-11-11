@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://right-richmond-orbit-pos.trycloudflare.com](https://right-richmond-orbit-pos.trycloudflare.com)
-**Cloudflare fallback:** [https://right-richmond-orbit-pos.trycloudflare.com](https://right-richmond-orbit-pos.trycloudflare.com)
+**Live URL:** [https://attention-requires-lifestyle-progressive.trycloudflare.com](https://attention-requires-lifestyle-progressive.trycloudflare.com)
+**Cloudflare fallback:** [https://attention-requires-lifestyle-progressive.trycloudflare.com](https://attention-requires-lifestyle-progressive.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
