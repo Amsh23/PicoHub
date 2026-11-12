@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://betty-twist-criticism-containing.trycloudflare.com](https://betty-twist-criticism-containing.trycloudflare.com)
-**Cloudflare fallback:** [https://betty-twist-criticism-containing.trycloudflare.com](https://betty-twist-criticism-containing.trycloudflare.com)
+**Live URL:** [https://wiki-softball-headphones-exists.trycloudflare.com](https://wiki-softball-headphones-exists.trycloudflare.com)
+**Cloudflare fallback:** [https://wiki-softball-headphones-exists.trycloudflare.com](https://wiki-softball-headphones-exists.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
