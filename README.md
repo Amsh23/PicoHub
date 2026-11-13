@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://creator-stomach-roberts-cheese.trycloudflare.com](https://creator-stomach-roberts-cheese.trycloudflare.com)
-**Cloudflare fallback:** [https://creator-stomach-roberts-cheese.trycloudflare.com](https://creator-stomach-roberts-cheese.trycloudflare.com)
+**Live URL:** [https://sage-reaches-britain-fly.trycloudflare.com](https://sage-reaches-britain-fly.trycloudflare.com)
+**Cloudflare fallback:** [https://sage-reaches-britain-fly.trycloudflare.com](https://sage-reaches-britain-fly.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
