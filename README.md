@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://cfr-doubt-magnet-attending.trycloudflare.com](https://cfr-doubt-magnet-attending.trycloudflare.com)
-**Cloudflare fallback:** [https://cfr-doubt-magnet-attending.trycloudflare.com](https://cfr-doubt-magnet-attending.trycloudflare.com)
+**Live URL:** [https://pairs-voltage-raises-computation.trycloudflare.com](https://pairs-voltage-raises-computation.trycloudflare.com)
+**Cloudflare fallback:** [https://pairs-voltage-raises-computation.trycloudflare.com](https://pairs-voltage-raises-computation.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
