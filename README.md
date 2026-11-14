@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://sage-reaches-britain-fly.trycloudflare.com](https://sage-reaches-britain-fly.trycloudflare.com)
-**Cloudflare fallback:** [https://sage-reaches-britain-fly.trycloudflare.com](https://sage-reaches-britain-fly.trycloudflare.com)
+**Live URL:** [https://insulation-fairly-architect-campbell.trycloudflare.com](https://insulation-fairly-architect-campbell.trycloudflare.com)
+**Cloudflare fallback:** [https://insulation-fairly-architect-campbell.trycloudflare.com](https://insulation-fairly-architect-campbell.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
