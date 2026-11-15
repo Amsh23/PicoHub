@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://theorem-rolled-polymer-sale.trycloudflare.com](https://theorem-rolled-polymer-sale.trycloudflare.com)
-**Cloudflare fallback:** [https://theorem-rolled-polymer-sale.trycloudflare.com](https://theorem-rolled-polymer-sale.trycloudflare.com)
+**Live URL:** [https://remained-tamil-generate-submission.trycloudflare.com](https://remained-tamil-generate-submission.trycloudflare.com)
+**Cloudflare fallback:** [https://remained-tamil-generate-submission.trycloudflare.com](https://remained-tamil-generate-submission.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
