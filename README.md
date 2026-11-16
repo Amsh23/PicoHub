@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://pennsylvania-calculated-conflicts-expertise.trycloudflare.com](https://pennsylvania-calculated-conflicts-expertise.trycloudflare.com)
-**Cloudflare fallback:** [https://pennsylvania-calculated-conflicts-expertise.trycloudflare.com](https://pennsylvania-calculated-conflicts-expertise.trycloudflare.com)
+**Live URL:** [https://ones-presentations-informal-adjustment.trycloudflare.com](https://ones-presentations-informal-adjustment.trycloudflare.com)
+**Cloudflare fallback:** [https://ones-presentations-informal-adjustment.trycloudflare.com](https://ones-presentations-informal-adjustment.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
