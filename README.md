@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://ones-presentations-informal-adjustment.trycloudflare.com](https://ones-presentations-informal-adjustment.trycloudflare.com)
-**Cloudflare fallback:** [https://ones-presentations-informal-adjustment.trycloudflare.com](https://ones-presentations-informal-adjustment.trycloudflare.com)
+**Live URL:** [https://pursuant-nitrogen-hoped-sim.trycloudflare.com](https://pursuant-nitrogen-hoped-sim.trycloudflare.com)
+**Cloudflare fallback:** [https://pursuant-nitrogen-hoped-sim.trycloudflare.com](https://pursuant-nitrogen-hoped-sim.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
