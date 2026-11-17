@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://radiation-texts-married-logs.trycloudflare.com](https://radiation-texts-married-logs.trycloudflare.com)
-**Cloudflare fallback:** [https://radiation-texts-married-logs.trycloudflare.com](https://radiation-texts-married-logs.trycloudflare.com)
+**Live URL:** [https://met-bumper-sandwich-painted.trycloudflare.com](https://met-bumper-sandwich-painted.trycloudflare.com)
+**Cloudflare fallback:** [https://met-bumper-sandwich-painted.trycloudflare.com](https://met-bumper-sandwich-painted.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
