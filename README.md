@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://met-bumper-sandwich-painted.trycloudflare.com](https://met-bumper-sandwich-painted.trycloudflare.com)
-**Cloudflare fallback:** [https://met-bumper-sandwich-painted.trycloudflare.com](https://met-bumper-sandwich-painted.trycloudflare.com)
+**Live URL:** [https://springer-zinc-hence-writer.trycloudflare.com](https://springer-zinc-hence-writer.trycloudflare.com)
+**Cloudflare fallback:** [https://springer-zinc-hence-writer.trycloudflare.com](https://springer-zinc-hence-writer.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
