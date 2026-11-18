@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://missile-counted-interactions-maritime.trycloudflare.com](https://missile-counted-interactions-maritime.trycloudflare.com)
-**Cloudflare fallback:** [https://missile-counted-interactions-maritime.trycloudflare.com](https://missile-counted-interactions-maritime.trycloudflare.com)
+**Live URL:** [https://cite-url-median-membrane.trycloudflare.com](https://cite-url-median-membrane.trycloudflare.com)
+**Cloudflare fallback:** [https://cite-url-median-membrane.trycloudflare.com](https://cite-url-median-membrane.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
