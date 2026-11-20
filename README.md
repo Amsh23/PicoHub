@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://pollution-kit-commodity-massive.trycloudflare.com](https://pollution-kit-commodity-massive.trycloudflare.com)
-**Cloudflare fallback:** [https://pollution-kit-commodity-massive.trycloudflare.com](https://pollution-kit-commodity-massive.trycloudflare.com)
+**Live URL:** [https://lace-coordinates-manchester-communications.trycloudflare.com](https://lace-coordinates-manchester-communications.trycloudflare.com)
+**Cloudflare fallback:** [https://lace-coordinates-manchester-communications.trycloudflare.com](https://lace-coordinates-manchester-communications.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
