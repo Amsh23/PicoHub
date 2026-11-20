@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://port-verse-describing-experiment.trycloudflare.com](https://port-verse-describing-experiment.trycloudflare.com)
-**Cloudflare fallback:** [https://port-verse-describing-experiment.trycloudflare.com](https://port-verse-describing-experiment.trycloudflare.com)
+**Live URL:** [https://governor-objectives-under-parameter.trycloudflare.com](https://governor-objectives-under-parameter.trycloudflare.com)
+**Cloudflare fallback:** [https://governor-objectives-under-parameter.trycloudflare.com](https://governor-objectives-under-parameter.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
