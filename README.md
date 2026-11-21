@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://summary-grace-affiliation-bracelets.trycloudflare.com](https://summary-grace-affiliation-bracelets.trycloudflare.com)
-**Cloudflare fallback:** [https://summary-grace-affiliation-bracelets.trycloudflare.com](https://summary-grace-affiliation-bracelets.trycloudflare.com)
+**Live URL:** [https://state-picture-lauren-baltimore.trycloudflare.com](https://state-picture-lauren-baltimore.trycloudflare.com)
+**Cloudflare fallback:** [https://state-picture-lauren-baltimore.trycloudflare.com](https://state-picture-lauren-baltimore.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
