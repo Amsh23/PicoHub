@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://state-picture-lauren-baltimore.trycloudflare.com](https://state-picture-lauren-baltimore.trycloudflare.com)
-**Cloudflare fallback:** [https://state-picture-lauren-baltimore.trycloudflare.com](https://state-picture-lauren-baltimore.trycloudflare.com)
+**Live URL:** [https://contributors-treasures-hwy-drunk.trycloudflare.com](https://contributors-treasures-hwy-drunk.trycloudflare.com)
+**Cloudflare fallback:** [https://contributors-treasures-hwy-drunk.trycloudflare.com](https://contributors-treasures-hwy-drunk.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
