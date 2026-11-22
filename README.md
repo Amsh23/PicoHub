@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://evening-preceding-selective-steady.trycloudflare.com](https://evening-preceding-selective-steady.trycloudflare.com)
-**Cloudflare fallback:** [https://evening-preceding-selective-steady.trycloudflare.com](https://evening-preceding-selective-steady.trycloudflare.com)
+**Live URL:** [https://translation-behind-treasure-previews.trycloudflare.com](https://translation-behind-treasure-previews.trycloudflare.com)
+**Cloudflare fallback:** [https://translation-behind-treasure-previews.trycloudflare.com](https://translation-behind-treasure-previews.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
