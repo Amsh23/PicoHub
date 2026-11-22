@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://arm-monitor-beautifully-animated.trycloudflare.com](https://arm-monitor-beautifully-animated.trycloudflare.com)
-**Cloudflare fallback:** [https://arm-monitor-beautifully-animated.trycloudflare.com](https://arm-monitor-beautifully-animated.trycloudflare.com)
+**Live URL:** [https://evening-preceding-selective-steady.trycloudflare.com](https://evening-preceding-selective-steady.trycloudflare.com)
+**Cloudflare fallback:** [https://evening-preceding-selective-steady.trycloudflare.com](https://evening-preceding-selective-steady.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
