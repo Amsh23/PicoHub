@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://translation-behind-treasure-previews.trycloudflare.com](https://translation-behind-treasure-previews.trycloudflare.com)
-**Cloudflare fallback:** [https://translation-behind-treasure-previews.trycloudflare.com](https://translation-behind-treasure-previews.trycloudflare.com)
+**Live URL:** [https://behalf-strong-brandon-entry.trycloudflare.com](https://behalf-strong-brandon-entry.trycloudflare.com)
+**Cloudflare fallback:** [https://behalf-strong-brandon-entry.trycloudflare.com](https://behalf-strong-brandon-entry.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
