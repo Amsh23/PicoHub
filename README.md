@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://behalf-strong-brandon-entry.trycloudflare.com](https://behalf-strong-brandon-entry.trycloudflare.com)
-**Cloudflare fallback:** [https://behalf-strong-brandon-entry.trycloudflare.com](https://behalf-strong-brandon-entry.trycloudflare.com)
+**Live URL:** [https://penguin-kinase-agreements-love.trycloudflare.com](https://penguin-kinase-agreements-love.trycloudflare.com)
+**Cloudflare fallback:** [https://penguin-kinase-agreements-love.trycloudflare.com](https://penguin-kinase-agreements-love.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
