@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://lock-open-lips-warren.trycloudflare.com](https://lock-open-lips-warren.trycloudflare.com)
-**Cloudflare fallback:** [https://lock-open-lips-warren.trycloudflare.com](https://lock-open-lips-warren.trycloudflare.com)
+**Live URL:** [https://expense-womens-detected-mask.trycloudflare.com](https://expense-womens-detected-mask.trycloudflare.com)
+**Cloudflare fallback:** [https://expense-womens-detected-mask.trycloudflare.com](https://expense-womens-detected-mask.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
