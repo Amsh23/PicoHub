@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://expense-womens-detected-mask.trycloudflare.com](https://expense-womens-detected-mask.trycloudflare.com)
-**Cloudflare fallback:** [https://expense-womens-detected-mask.trycloudflare.com](https://expense-womens-detected-mask.trycloudflare.com)
+**Live URL:** [https://plans-diving-nelson-inns.trycloudflare.com](https://plans-diving-nelson-inns.trycloudflare.com)
+**Cloudflare fallback:** [https://plans-diving-nelson-inns.trycloudflare.com](https://plans-diving-nelson-inns.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
