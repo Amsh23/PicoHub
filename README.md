@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://plans-diving-nelson-inns.trycloudflare.com](https://plans-diving-nelson-inns.trycloudflare.com)
-**Cloudflare fallback:** [https://plans-diving-nelson-inns.trycloudflare.com](https://plans-diving-nelson-inns.trycloudflare.com)
+**Live URL:** [https://submitting-rides-asbestos-fog.trycloudflare.com](https://submitting-rides-asbestos-fog.trycloudflare.com)
+**Cloudflare fallback:** [https://submitting-rides-asbestos-fog.trycloudflare.com](https://submitting-rides-asbestos-fog.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
