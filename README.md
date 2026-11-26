@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://robot-island-wondering-country.trycloudflare.com](https://robot-island-wondering-country.trycloudflare.com)
-**Cloudflare fallback:** [https://robot-island-wondering-country.trycloudflare.com](https://robot-island-wondering-country.trycloudflare.com)
+**Live URL:** [https://employment-applicant-deer-country.trycloudflare.com](https://employment-applicant-deer-country.trycloudflare.com)
+**Cloudflare fallback:** [https://employment-applicant-deer-country.trycloudflare.com](https://employment-applicant-deer-country.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
