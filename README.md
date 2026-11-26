@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://submitting-rides-asbestos-fog.trycloudflare.com](https://submitting-rides-asbestos-fog.trycloudflare.com)
-**Cloudflare fallback:** [https://submitting-rides-asbestos-fog.trycloudflare.com](https://submitting-rides-asbestos-fog.trycloudflare.com)
+**Live URL:** [https://robot-island-wondering-country.trycloudflare.com](https://robot-island-wondering-country.trycloudflare.com)
+**Cloudflare fallback:** [https://robot-island-wondering-country.trycloudflare.com](https://robot-island-wondering-country.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
