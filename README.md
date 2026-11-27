@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://employment-applicant-deer-country.trycloudflare.com](https://employment-applicant-deer-country.trycloudflare.com)
-**Cloudflare fallback:** [https://employment-applicant-deer-country.trycloudflare.com](https://employment-applicant-deer-country.trycloudflare.com)
+**Live URL:** [https://extensive-monitors-leaders-christine.trycloudflare.com](https://extensive-monitors-leaders-christine.trycloudflare.com)
+**Cloudflare fallback:** [https://extensive-monitors-leaders-christine.trycloudflare.com](https://extensive-monitors-leaders-christine.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
