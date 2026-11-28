@@ -4,8 +4,8 @@
 
 ## Live service / سرویس آنلاین
 
-**Live URL:** [https://creek-packets-communication-move.trycloudflare.com](https://creek-packets-communication-move.trycloudflare.com)
-**Cloudflare fallback:** [https://creek-packets-communication-move.trycloudflare.com](https://creek-packets-communication-move.trycloudflare.com)
+**Live URL:** [https://subscribe-presence-queue-highlight.trycloudflare.com](https://subscribe-presence-queue-highlight.trycloudflare.com)
+**Cloudflare fallback:** [https://subscribe-presence-queue-highlight.trycloudflare.com](https://subscribe-presence-queue-highlight.trycloudflare.com)
 **Localet URL:** _Relay not reachable from this GitHub-hosted runner; see the workflow diagnostics._
 
 **Tunnel:** Cloudflare Quick Tunnel (fallback)
